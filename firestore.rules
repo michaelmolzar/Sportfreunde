@@ -110,5 +110,14 @@ service cloud.firestore {
                     (!('email' in request.resource.data) || isValidEmail(request.resource.data.email));
       allow delete: if isAdmin();
     }
+
+    match /newsletter_subscribers/{subscriberId} {
+      allow read, update, delete: if isAdmin();
+      allow create: if true && 
+                    hasRequiredFields(['email', 'consent', 'subscribedAt']) &&
+                    isValidEmail(request.resource.data.email) &&
+                    request.resource.data.consent == true &&
+                    isValidString('subscribedAt', 50);
+    }
   }
 }

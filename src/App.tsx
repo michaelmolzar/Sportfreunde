@@ -247,6 +247,11 @@ export default function App() {
   const [newMemberClub, setNewMemberClub] = useState('Austria Wien');
   const [newMemberNationalTeam, setNewMemberNationalTeam] = useState('Österreich');
 
+  // Newsletter Signup State
+  const [signupEmail, setSignupEmail] = useState('');
+  const [signupConsent, setSignupConsent] = useState(false);
+  const [signupStatus, setSignupStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (adminPasswordInput === 'sportfreunde2024') {
@@ -290,6 +295,28 @@ export default function App() {
     const subject = encodeURIComponent(newsletterSubject);
     const body = encodeURIComponent(newsletterBody);
     window.location.href = `mailto:?bcc=${emails}&subject=${subject}&body=${body}`;
+  };
+
+  const handleNewsletterSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!signupEmail || !signupConsent) return;
+    
+    setSignupStatus('loading');
+    try {
+      await addDoc(collection(db, 'newsletter_subscribers'), {
+        email: signupEmail,
+        consent: signupConsent,
+        subscribedAt: new Date().toISOString()
+      });
+      setSignupStatus('success');
+      setSignupEmail('');
+      setSignupConsent(false);
+      setTimeout(() => setSignupStatus('idle'), 5000);
+    } catch (error) {
+      console.error('Error adding newsletter subscriber: ', error);
+      setSignupStatus('error');
+      setTimeout(() => setSignupStatus('idle'), 5000);
+    }
   };
 
   // Firestore Listeners
@@ -614,6 +641,12 @@ export default function App() {
               Projekte
             </button>
             <button 
+              onClick={() => setActiveTab('stats')}
+              className={`text-sm font-bold uppercase tracking-wider px-4 py-2 rounded-full transition-all cursor-pointer ${activeTab === 'stats' ? 'bg-[#D4AF37] text-white shadow-lg' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+            >
+              Statistiken
+            </button>
+            <button 
               onClick={() => setActiveTab('admin')}
               className={`text-sm font-bold uppercase tracking-wider px-4 py-2 rounded-full transition-all cursor-pointer ${activeTab === 'admin' ? 'bg-[#D4AF37] text-white shadow-lg' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
             >
@@ -678,6 +711,15 @@ export default function App() {
                 className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${activeTab === 'projects' ? 'bg-[#D4AF37] text-white' : 'text-white hover:bg-white/10'}`}
               >
                 Projekte
+              </button>
+              <button 
+                onClick={() => {
+                  setActiveTab('stats');
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${activeTab === 'stats' ? 'bg-[#D4AF37] text-white' : 'text-white hover:bg-white/10'}`}
+              >
+                Statistiken
               </button>
               <button 
                 onClick={() => {
@@ -1264,6 +1306,187 @@ export default function App() {
                   </p>
                 </div>
               </form>
+            </div>
+
+            {/* Newsletter Anmeldung */}
+            <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+              <div className="flex items-center gap-3 mb-6 pb-6 border-b border-gray-100">
+                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                  <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H14"></path></svg>
+                </div>
+                <h2 className="text-2xl font-black text-[#5C2D91]">Newsletter Anmeldung</h2>
+              </div>
+              
+              <div className="prose prose-lg text-gray-600 leading-relaxed mb-6">
+                <p>
+                  Bleib auf dem Laufenden! Melde dich für unseren Newsletter an und erfahre als Erster von neuen Projekten, Spendenständen und Aktionen.
+                </p>
+              </div>
+
+              {signupStatus === 'success' ? (
+                <div className="bg-green-50 border border-green-200 text-green-800 rounded-xl p-6 text-center">
+                  <div className="flex justify-center mb-2">
+                    <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                  </div>
+                  <h3 className="font-bold text-lg mb-1">Vielen Dank für deine Anmeldung!</h3>
+                  <p className="text-sm">Du bist nun für unseren Newsletter eingetragen.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleNewsletterSignup} className="space-y-4">
+                  <div>
+                    <label htmlFor="newsletterEmail" className="block text-sm font-bold text-gray-700 mb-2">E-Mail Adresse *</label>
+                    <input 
+                      type="email" 
+                      id="newsletterEmail" 
+                      value={signupEmail}
+                      onChange={(e) => setSignupEmail(e.target.value)}
+                      required
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#5C2D91] focus:border-transparent outline-none transition-all bg-gray-50 focus:bg-white"
+                      placeholder="deine@email.at"
+                    />
+                  </div>
+                  
+                  <div className="flex items-start gap-3 mt-4">
+                    <div className="flex items-center h-5 mt-1">
+                      <input 
+                        id="consent" 
+                        type="checkbox" 
+                        checked={signupConsent}
+                        onChange={(e) => setSignupConsent(e.target.checked)}
+                        required
+                        className="w-4 h-4 text-[#5C2D91] bg-gray-100 border-gray-300 rounded focus:ring-[#5C2D91]"
+                      />
+                    </div>
+                    <label htmlFor="consent" className="text-sm text-gray-600">
+                      Ich stimme zu, dass meine E-Mail-Adresse gespeichert wird und ich den Newsletter des Vereins "Sportfreunde helfen" erhalte. Diese Einwilligung kann ich jederzeit widerrufen. Weitere Informationen findest du in unserer <a href="/datenschutz.html" className="text-[#5C2D91] underline">Datenschutzerklärung</a>. *
+                    </label>
+                  </div>
+
+                  {signupStatus === 'error' && (
+                    <p className="text-red-500 text-sm mt-2">Es gab einen Fehler bei der Anmeldung. Bitte versuche es später erneut.</p>
+                  )}
+
+                  <div className="pt-4">
+                    <button 
+                      type="submit" 
+                      disabled={signupStatus === 'loading' || !signupConsent || !signupEmail}
+                      className="w-full sm:w-auto bg-[#D4AF37] text-white font-bold uppercase tracking-wider py-3 px-8 rounded-xl hover:bg-[#c4a030] transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                      {signupStatus === 'loading' ? (
+                        <span className="animate-pulse">Wird angemeldet...</span>
+                      ) : (
+                        <>Anmelden</>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'stats' && (
+          <div className="max-w-6xl mx-auto space-y-8">
+            <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+              <div className="flex items-center gap-3 mb-8 pb-6 border-b border-gray-100">
+                <div className="w-12 h-12 bg-[#5C2D91]/10 rounded-full flex items-center justify-center">
+                  <svg className="w-6 h-6 text-[#5C2D91]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                </div>
+                <h2 className="text-3xl font-black text-[#5C2D91]">Statistiken & KPIs</h2>
+              </div>
+
+              {(() => {
+                const totalParticipants = membersList.length;
+                const totalDonations = totalSpenden; // From global state
+                const avgDonationPerParticipant = totalParticipants > 0 ? (totalDonations / totalParticipants).toFixed(2) : '0.00';
+                
+                const totalClubGoals = Object.values(clubsData).reduce((sum: number, club: any) => sum + (club.tore || 0), 0);
+                const totalNationalGoals = Object.values(nationalTeamsData).reduce((sum: number, team: any) => sum + (team.tore || 0), 0);
+                const totalGoals = totalClubGoals + totalNationalGoals;
+
+                const clubCount = Object.keys(clubsData).length;
+                const avgGoalsPerClub = clubCount > 0 ? (totalClubGoals / clubCount).toFixed(1) : '0.0';
+
+                // Find most successful club (by points)
+                let bestClub = { name: '-', points: -1 };
+                Object.entries(clubsData).forEach(([name, data]: [string, any]) => {
+                  if (data.punkte > bestClub.points) {
+                    bestClub = { name, points: data.punkte };
+                  }
+                });
+
+                // Find most successful national team (by points)
+                let bestNationalTeam = { name: '-', points: -1 };
+                Object.entries(nationalTeamsData).forEach(([name, data]: [string, any]) => {
+                  if (data.punkte > bestNationalTeam.points) {
+                    bestNationalTeam = { name, points: data.punkte };
+                  }
+                });
+
+                return (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {/* KPI Card 1 */}
+                    <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-md relative overflow-hidden">
+                      <div className="absolute top-0 right-0 opacity-20 transform translate-x-4 -translate-y-4">
+                        <Users size={80} />
+                      </div>
+                      <h3 className="text-blue-100 font-semibold mb-2 relative z-10">Teilnehmer gesamt</h3>
+                      <div className="text-4xl font-black relative z-10">{totalParticipants}</div>
+                      <p className="text-sm text-blue-100 mt-2 relative z-10">Sportfreunde im Einsatz</p>
+                    </div>
+
+                    {/* KPI Card 2 */}
+                    <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white shadow-md relative overflow-hidden">
+                      <div className="absolute top-0 right-0 opacity-20 transform translate-x-4 -translate-y-4">
+                        <svg className="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                      </div>
+                      <h3 className="text-green-100 font-semibold mb-2 relative z-10">Ø Spende pro Teilnehmer</h3>
+                      <div className="text-4xl font-black relative z-10">{avgDonationPerParticipant} €</div>
+                      <p className="text-sm text-green-100 mt-2 relative z-10">Durchschnittlicher Beitrag</p>
+                    </div>
+
+                    {/* KPI Card 3 */}
+                    <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white shadow-md relative overflow-hidden">
+                      <div className="absolute top-0 right-0 opacity-20 transform translate-x-4 -translate-y-4">
+                        <svg className="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                      </div>
+                      <h3 className="text-purple-100 font-semibold mb-2 relative z-10">Tore gesamt</h3>
+                      <div className="text-4xl font-black relative z-10">{totalGoals}</div>
+                      <p className="text-sm text-purple-100 mt-2 relative z-10">Clubs & Nationalteams</p>
+                    </div>
+
+                    {/* KPI Card 4 */}
+                    <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 text-white shadow-md relative overflow-hidden">
+                      <div className="absolute top-0 right-0 opacity-20 transform translate-x-4 -translate-y-4">
+                        <svg className="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                      </div>
+                      <h3 className="text-orange-100 font-semibold mb-2 relative z-10">Ø Tore pro Club</h3>
+                      <div className="text-4xl font-black relative z-10">{avgGoalsPerClub}</div>
+                      <p className="text-sm text-orange-100 mt-2 relative z-10">In der aktuellen Saison</p>
+                    </div>
+
+                    {/* KPI Card 5 */}
+                    <div className="bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-2xl p-6 text-white shadow-md relative overflow-hidden">
+                      <div className="absolute top-0 right-0 opacity-20 transform translate-x-4 -translate-y-4">
+                        <Award size={80} />
+                      </div>
+                      <h3 className="text-yellow-100 font-semibold mb-2 relative z-10">Bester Club</h3>
+                      <div className="text-2xl font-black relative z-10 truncate" title={bestClub.name}>{bestClub.name}</div>
+                      <p className="text-sm text-yellow-100 mt-2 relative z-10">Mit {bestClub.points} Punkten</p>
+                    </div>
+
+                    {/* KPI Card 6 */}
+                    <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-2xl p-6 text-white shadow-md relative overflow-hidden">
+                      <div className="absolute top-0 right-0 opacity-20 transform translate-x-4 -translate-y-4">
+                        <svg className="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>
+                      </div>
+                      <h3 className="text-red-100 font-semibold mb-2 relative z-10">Bestes Nationalteam</h3>
+                      <div className="text-2xl font-black relative z-10 truncate" title={bestNationalTeam.name}>{bestNationalTeam.name}</div>
+                      <p className="text-sm text-red-100 mt-2 relative z-10">Mit {bestNationalTeam.points} Punkten</p>
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
           </div>
         )}

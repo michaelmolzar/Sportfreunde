@@ -39,6 +39,17 @@
         "email": { "type": "string", "description": "Email address of the member" }
       },
       "required": ["name", "club", "nationalTeam", "color"]
+    },
+    "NewsletterSubscriber": {
+      "title": "Newsletter Subscriber",
+      "description": "A user who subscribed to the newsletter.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "description": "Email address of the subscriber" },
+        "consent": { "type": "boolean", "description": "Whether the user consented to receive the newsletter" },
+        "subscribedAt": { "type": "string", "description": "ISO date string of when the user subscribed" }
+      },
+      "required": ["email", "consent", "subscribedAt"]
     }
   },
   "firestore": {
@@ -53,6 +64,10 @@
     "members/{memberId}": {
       "schema": "Member",
       "description": "Collection of members"
+    },
+    "newsletter_subscribers/{subscriberId}": {
+      "schema": "NewsletterSubscriber",
+      "description": "Collection of newsletter subscribers"
     }
   }
 }
