@@ -17,6 +17,12 @@ Dank der neuen **Firebase-Integration** werden alle Änderungen, die du im Admin
 
 **Wichtig:** Du musst den Quellcode (`src/App.tsx`) NICHT mehr bearbeiten, um Punktestände zu aktualisieren! Die Werte im Code (`INITIAL_CLUBS_DATA` etc.) dienen nur noch als Startwerte, falls die Datenbank komplett leer sein sollte.
 
+### Automatische Synchronisation (API-Football)
+Im Admin-Bereich gibt es nun einen Button **"Live-Daten synchronisieren"**. 
+1. Damit dieser funktioniert, musst du einen API-Key von [API-Football](https://dashboard.api-football.com/) in den Umgebungsvariablen (Secrets) als `VITE_API_FOOTBALL_KEY` hinterlegen.
+2. Ein Klick auf den Button ruft die aktuellen Punkte und Tore für alle Teams (die im Code in der `API_FOOTBALL_MAPPING` Liste hinterlegt sind) ab und speichert sie automatisch in der Datenbank.
+3. *Hinweis:* Titel-Boni (Meister, Cup etc.) müssen weiterhin manuell über die Checkboxen vergeben werden.
+
 ## 2. Bilddateien und Logos
 
 Die Logos der Vereine und Nationalteams werden lokal gespeichert, um Abhängigkeiten von externen Links zu vermeiden.

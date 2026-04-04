@@ -49,6 +49,24 @@ const RULES = {
   euroFinale: 100
 };
 
+// Mapping für API-Football (Team IDs, League IDs, Season)
+// Suche die passenden IDs auf https://dashboard.api-football.com/
+const API_FOOTBALL_MAPPING = {
+  clubs: {
+    'Austria Wien': { teamId: 77, leagueId: 218, season: 2024 },
+    'Rapid Wien': { teamId: 76, leagueId: 218, season: 2024 },
+    'Villarreal': { teamId: 533, leagueId: 140, season: 2024 },
+    'Sturm Graz': { teamId: 79, leagueId: 218, season: 2024 },
+    'LASK': { teamId: 80, leagueId: 218, season: 2024 },
+    'Salzburg': { teamId: 73, leagueId: 218, season: 2024 }
+  },
+  nationalTeams: {
+    'Österreich': { teamId: 17, leagueId: 32, season: 2024 }, // 32 = Nations League
+    'Spanien': { teamId: 9, leagueId: 32, season: 2024 },
+    'Deutschland': { teamId: 25, leagueId: 32, season: 2024 }
+  }
+};
+
 const COLORS = {
   violett: '#5C2D91',
   gelb: '#FACC15',
@@ -252,6 +270,10 @@ export default function App() {
   const [signupConsent, setSignupConsent] = useState(false);
   const [signupStatus, setSignupStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
+  // API Football Sync State
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncResult, setSyncResult] = useState('');
+
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (adminPasswordInput === 'sportfreunde2024') {
@@ -317,6 +339,84 @@ export default function App() {
       setSignupStatus('error');
       setTimeout(() => setSignupStatus('idle'), 5000);
     }
+  };
+
+  const syncWithApiFootball = async () => {
+    const apiKey = import.meta.env.VITE_API_FOOTBALL_KEY;
+    if (!apiKey) {
+      alert("API Key für API-Football fehlt! Bitte in den Umgebungsvariablen (VITE_API_FOOTBALL_KEY) eintragen.");
+      return;
+    }
+
+    setIsSyncing(true);
+    setSyncResult('');
+    let successCount = 0;
+    let errorCount = 0;
+
+    const fetchTeamData = async (teamName: string, config: any, isClub: boolean) => {
+      try {
+        const res = await fetch(`https://v3.football.api-sports.io/standings?league=${config.leagueId}&season=${config.season}&team=${config.teamId}`, {
+          headers: {
+            'x-apisports-key': apiKey
+          }
+        });
+        const data = await res.json();
+        
+        if (data.errors && Object.keys(data.errors).length > 0) {
+          console.error(`API Error for ${teamName}:`, data.errors);
+          errorCount++;
+          return;
+        }
+
+        const standings = data.response?.[0]?.league?.standings?.[0];
+        if (!standings) {
+          console.warn(`No standings found for ${teamName}`);
+          errorCount++;
+          return;
+        }
+
+        const teamStats = standings.find((s: any) => s.team.id === config.teamId);
+        if (teamStats) {
+          const punkte = teamStats.points;
+          const tore = teamStats.all.goals.for;
+          const spiele = teamStats.all.played;
+
+          const collectionName = isClub ? 'clubs' : 'nationalTeams';
+          const docRef = doc(db, collectionName, teamName);
+          
+          if (isClub) {
+            await updateDoc(docRef, { punkte, tore, spieltag: spiele });
+          } else {
+            await updateDoc(docRef, { punkte, tore, spiele });
+          }
+          successCount++;
+        } else {
+          errorCount++;
+        }
+      } catch (err) {
+        console.error(`Fetch failed for ${teamName}:`, err);
+        errorCount++;
+      }
+    };
+
+    // Cast to any to allow dynamic key access
+    const mapping = API_FOOTBALL_MAPPING as any;
+
+    for (const [name, config] of Object.entries(mapping.clubs)) {
+      if (clubsData[name]) {
+        await fetchTeamData(name, config, true);
+      }
+    }
+
+    for (const [name, config] of Object.entries(mapping.nationalTeams)) {
+      if (nationalTeamsData[name]) {
+        await fetchTeamData(name, config, false);
+      }
+    }
+
+    setIsSyncing(false);
+    setSyncResult(`Sync abgeschlossen: ${successCount} aktualisiert, ${errorCount} Fehler.`);
+    setTimeout(() => setSyncResult(''), 8000);
   };
 
   // Firestore Listeners
@@ -1488,6 +1588,78 @@ export default function App() {
                 );
               })()}
             </div>
+
+            {/* Top 3 Rankings */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Top 3 Clubs */}
+              <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                  <Trophy className="w-6 h-6 text-[#D4AF37]" />
+                  <h3 className="text-xl font-bold text-[#5C2D91]">Top 3 Vereine (Spenden)</h3>
+                </div>
+                <div className="space-y-4">
+                  {(() => {
+                    const clubEuros = Object.entries(clubsData).map(([name, data]: [string, any]) => {
+                      let total = (data.punkte * RULES.punkt) + (data.tore * RULES.tor);
+                      (data.titel || []).forEach((t: string) => {
+                        if (t === 'Meister') total += RULES.meister;
+                        if (t === 'Cup') total += RULES.cup;
+                        if (t === 'CupFinale') total += RULES.cupFinale;
+                        if (t === 'EuroQuali') total += RULES.euroQuali;
+                        if (t === 'EuroGruppenphase') total += RULES.euroGruppenphase;
+                      });
+                      return { name, total, logo: data.logo };
+                    }).sort((a, b) => b.total - a.total).slice(0, 3);
+
+                    return clubEuros.map((club, index) => (
+                      <div key={club.name} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
+                        <div className="flex items-center gap-4">
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-sm ${index === 0 ? 'bg-[#D4AF37] text-white' : index === 1 ? 'bg-gray-300 text-gray-700' : 'bg-amber-600 text-white'}`}>
+                            {index + 1}
+                          </div>
+                          <div className="w-10 h-10 bg-white rounded-full p-1 shadow-sm border border-gray-200 flex items-center justify-center overflow-hidden">
+                            <SmartLogo src={club.logo} alt={club.name} className="w-full h-full object-contain" />
+                          </div>
+                          <span className="font-bold text-gray-800">{club.name}</span>
+                        </div>
+                        <div className="font-black text-[#5C2D91]">{club.total} €</div>
+                      </div>
+                    ));
+                  })()}
+                </div>
+              </div>
+
+              {/* Top 3 National Teams */}
+              <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                  <Globe className="w-6 h-6 text-[#D4AF37]" />
+                  <h3 className="text-xl font-bold text-[#5C2D91]">Top 3 Nationalteams (Spenden)</h3>
+                </div>
+                <div className="space-y-4">
+                  {(() => {
+                    const teamEuros = Object.entries(nationalTeamsData).map(([name, data]: [string, any]) => {
+                      let total = (data.punkte * RULES.punkt) + (data.tore * RULES.tor);
+                      return { name, total, logo: data.logo };
+                    }).sort((a, b) => b.total - a.total).slice(0, 3);
+
+                    return teamEuros.map((team, index) => (
+                      <div key={team.name} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
+                        <div className="flex items-center gap-4">
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-sm ${index === 0 ? 'bg-[#D4AF37] text-white' : index === 1 ? 'bg-gray-300 text-gray-700' : 'bg-amber-600 text-white'}`}>
+                            {index + 1}
+                          </div>
+                          <div className="w-10 h-10 bg-white rounded-full p-1 shadow-sm border border-gray-200 flex items-center justify-center overflow-hidden">
+                            <SmartLogo src={team.logo} alt={team.name} className="w-full h-full object-contain" />
+                          </div>
+                          <span className="font-bold text-gray-800">{team.name}</span>
+                        </div>
+                        <div className="font-black text-[#5C2D91]">{team.total} €</div>
+                      </div>
+                    ));
+                  })()}
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
@@ -1605,6 +1777,32 @@ export default function App() {
                     >
                       Abmelden
                     </button>
+                  </div>
+
+                  {/* API Football Sync */}
+                  <div className="mb-8 p-6 bg-blue-50 rounded-xl border border-blue-100">
+                    <div className="flex items-center justify-between flex-wrap gap-4">
+                      <div>
+                        <h3 className="text-lg font-bold text-blue-900 mb-1">Live-Daten synchronisieren</h3>
+                        <p className="text-sm text-blue-700">Aktualisiert Punkte und Tore automatisch über API-Football.</p>
+                      </div>
+                      <button
+                        onClick={syncWithApiFootball}
+                        disabled={isSyncing}
+                        className="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                      >
+                        {isSyncing ? (
+                          <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Syncing...</>
+                        ) : (
+                          <>Jetzt synchronisieren</>
+                        )}
+                      </button>
+                    </div>
+                    {syncResult && (
+                      <div className={`mt-4 p-3 rounded-lg text-sm font-medium ${syncResult.includes('Fehler') ? 'bg-amber-100 text-amber-800' : 'bg-green-100 text-green-800'}`}>
+                        {syncResult}
+                      </div>
+                    )}
                   </div>
 
                   {/* Initialization Button */}
