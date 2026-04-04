@@ -1397,7 +1397,7 @@ export default function App() {
 
               {(() => {
                 const totalParticipants = membersList.length;
-                const totalDonations = totalSpenden; // From global state
+                const totalDonations = totalDonation; // Use the calculated totalDonation
                 const avgDonationPerParticipant = totalParticipants > 0 ? (totalDonations / totalParticipants).toFixed(2) : '0.00';
                 
                 const totalClubGoals = Object.values(clubsData).reduce((sum: number, club: any) => sum + (club.tore || 0), 0);
