@@ -103,7 +103,21 @@ Das Passwort ist direkt im Code (`src/App.tsx`) hinterlegt. Um es zu ändern:
 **Hinweis zur Sicherheit:**
 Das Passwort schützt den Zugang zur Benutzeroberfläche. Die Datenbank selbst erlaubt Schreibzugriffe nur für authentifizierte Benutzer (was durch die Passworteingabe im Hintergrund passiert). Lesezugriffe sind öffentlich, damit jeder den aktuellen Spendenstand sehen kann.
 
-## 5. Favicon ändern
+## 5. Newsletter versenden
+
+Im Admin-Bereich kannst du ganz einfach einen Newsletter an alle eingetragenen Mitglieder verschicken.
+
+### So funktioniert es:
+1. **Admin-Bereich öffnen:** Logge dich mit dem Passwort ein.
+2. **Nach unten scrollen:** Unter der Mitgliederliste findest du den Bereich **"Newsletter versenden"**.
+3. **Inhalte eingeben:** Trage einen Betreff und deine Nachricht in die entsprechenden Felder ein.
+4. **Senden:** Klicke auf den Button **"E-Mail Client öffnen & Senden"**.
+
+**Was passiert im Hintergrund?**
+Die App öffnet automatisch dein Standard-E-Mail-Programm (z.B. Outlook, Apple Mail oder Gmail). Sie übernimmt deinen Betreff und Text. 
+*Wichtig für den Datenschutz:* Alle E-Mail-Adressen der Mitglieder werden automatisch in das **BCC-Feld (Blindkopie)** eingefügt. So sieht kein Mitglied die E-Mail-Adressen der anderen.
+
+## 6. Favicon ändern
 Um das Favicon (das kleine Icon im Browser-Tab) zu ändern:
 1. Erstelle dein Logo als `.png` oder `.ico` Datei.
 2. Benenne es `logo.png` (oder `favicon.ico`).

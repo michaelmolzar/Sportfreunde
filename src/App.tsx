@@ -137,6 +137,10 @@ const SmartLogo = ({ src, alt, className }: { src: string, alt: string, classNam
     
     if (nextExt) {
       setCurrentSrc(`${basePath}.${nextExt}`);
+    } else {
+      if (!currentSrc.startsWith('https://ui-avatars.com')) {
+        setCurrentSrc(`https://ui-avatars.com/api/?name=${encodeURIComponent(alt)}&background=random&color=fff&bold=true`);
+      }
     }
   };
 
@@ -268,6 +272,25 @@ export default function App() {
   // State für neue Einträge
   const [newClubName, setNewClubName] = useState('');
   const [newNationalTeamName, setNewNationalTeamName] = useState('');
+  
+  // State für Newsletter
+  const [newsletterSubject, setNewsletterSubject] = useState('');
+  const [newsletterBody, setNewsletterBody] = useState('');
+
+  const handleSendNewsletter = () => {
+    const emails = membersList.map(m => m.email).filter(Boolean).join(',');
+    if (!emails) {
+      alert('Keine E-Mail-Adressen bei den Mitgliedern hinterlegt!');
+      return;
+    }
+    if (!newsletterSubject || !newsletterBody) {
+      alert('Bitte Betreff und Nachricht eingeben!');
+      return;
+    }
+    const subject = encodeURIComponent(newsletterSubject);
+    const body = encodeURIComponent(newsletterBody);
+    window.location.href = `mailto:?bcc=${emails}&subject=${subject}&body=${body}`;
+  };
 
   // Firestore Listeners
   useEffect(() => {
@@ -1675,6 +1698,51 @@ export default function App() {
                           </button>
                         </div>
                       ))}
+                    </div>
+                  </div>
+
+                  {/* Newsletter Section */}
+                  <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 mt-8">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                      </div>
+                      <h3 className="text-2xl font-bold text-gray-800">Newsletter versenden</h3>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-2">Betreff</label>
+                        <input 
+                          type="text" 
+                          value={newsletterSubject}
+                          onChange={(e) => setNewsletterSubject(e.target.value)}
+                          placeholder="z.B. Update zur aktuellen Saison!"
+                          className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-2">Nachricht</label>
+                        <textarea 
+                          value={newsletterBody}
+                          onChange={(e) => setNewsletterBody(e.target.value)}
+                          placeholder="Liebe Sportfreunde..."
+                          rows={6}
+                          className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-y"
+                        ></textarea>
+                      </div>
+                      <div className="flex justify-end pt-2">
+                        <button 
+                          onClick={handleSendNewsletter}
+                          className="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors shadow-md flex items-center gap-2"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                          E-Mail Client öffnen & Senden
+                        </button>
+                      </div>
+                      <p className="text-xs text-gray-500 text-right mt-2">
+                        * Öffnet dein Standard-E-Mail-Programm. Alle hinterlegten E-Mail-Adressen der Mitglieder werden automatisch in das BCC-Feld (Blindkopie) eingefügt.
+                      </p>
                     </div>
                   </div>
 
