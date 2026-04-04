@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impressum & Offenlegung – Sportfreunde helfen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --clr-bg: #f4f2ed;
+      --clr-surface: #ffffff;
+      --clr-text: #1c1c1c;
+      --clr-muted: #5e5e5e;
+      --clr-light: #8a8a8a;
+      --clr-accent: #1a5632;
+      --clr-accent-soft: #e4f0e8;
+      --clr-placeholder: #b84600;
+      --clr-placeholder-bg: #fff4ec;
+      --clr-placeholder-border: #ffd6b3;
+      --clr-border: #ddd9d0;
+      --clr-divider: #eeebe4;
+      --clr-warning-bg: #fffbe6;
+      --clr-warning-border: #e6d566;
+      --clr-warning-text: #6b5900;
+      --font-body: 'Source Sans 3', -apple-system, sans-serif;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --radius: 8px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--clr-bg);
+      color: var(--clr-text);
+      line-height: 1.75;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--clr-light);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: color 0.2s;
+    }
+    .back:hover { color: var(--clr-accent); }
+    .back svg { width: 15px; height: 15px; }
+
+    .header { margin-bottom: 2.5rem; }
+    .header h1 {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+    .header .lead {
+      font-size: 0.95rem;
+      color: var(--clr-muted);
+      max-width: 620px;
+    }
+
+    .notice {
+      background: var(--clr-warning-bg);
+      border: 1px solid var(--clr-warning-border);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      margin-bottom: 2.5rem;
+      display: flex;
+      gap: 0.7rem;
+      align-items: flex-start;
+    }
+    .notice svg { flex-shrink: 0; margin-top: 2px; color: var(--clr-warning-text); }
+    .notice p { font-size: 0.85rem; color: var(--clr-warning-text); line-height: 1.6; }
+    .notice strong { font-weight: 700; }
+
+    .section { margin-bottom: 2.2rem; }
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .section-head .num {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: var(--clr-accent);
+      color: #fff;
+      font-size: 0.72rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-head h2 {
+      font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--clr-accent);
+    }
+
+    .card {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .card + .card { margin-top: 0.5rem; }
+
+    .row {
+      display: flex;
+      padding: 0.75rem 1.4rem;
+      border-bottom: 1px solid var(--clr-divider);
+      gap: 1rem;
+    }
+    .row:last-child { border-bottom: none; }
+    .row-label {
+      min-width: 180px;
+      font-size: 0.85rem;
+      color: var(--clr-muted);
+      flex-shrink: 0;
+    }
+    .row-value {
+      font-size: 0.9rem;
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .ph {
+      display: inline-block;
+      color: var(--clr-placeholder);
+      background: var(--clr-placeholder-bg);
+      border: 1px dashed var(--clr-placeholder-border);
+      padding: 0.15em 0.55em;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .legal { padding: 1.2rem 1.4rem; }
+    .legal h3 { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .legal p {
+      font-size: 0.87rem; color: var(--clr-muted);
+      margin-bottom: 0.9rem; line-height: 1.75;
+    }
+    .legal p:last-child { margin-bottom: 0; }
+    .legal ul {
+      margin: 0.5rem 0 1rem 1.2rem;
+      font-size: 0.87rem; color: var(--clr-muted);
+    }
+    .legal ul li { margin-bottom: 0.35rem; }
+    .legal a {
+      color: var(--clr-accent);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .law-ref {
+      display: inline-block;
+      font-size: 0.7rem; font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--clr-light);
+      background: var(--clr-bg);
+      border: 1px solid var(--clr-border);
+      padding: 0.15em 0.5em;
+      border-radius: 3px;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+
+    .footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--clr-border);
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--clr-light);
+    }
+    .footer span { display: block; margin-top: 0.3rem; }
+
+    @media (max-width: 560px) {
+      .page { padding: 1.5rem 1rem 3rem; }
+      .header h1 { font-size: 1.7rem; }
+      .row { flex-direction: column; gap: 0.15rem; padding: 0.65rem 1rem; }
+      .row-label { min-width: unset; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <a href="/" class="back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    Zurück zur Startseite
+  </a>
+
+  <div class="header">
+    <h1>Impressum &amp; Offenlegung</h1>
+    <p class="lead">Angaben gemäß § 5 E-Commerce-Gesetz (ECG), Offenlegung gemäß § 25 Mediengesetz (MedienG) sowie Informationspflichten gemäß Vereinsgesetz 2002 (VerG).</p>
+  </div>
+
+  <div class="notice">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <p><strong>Hinweis:</strong> Orange markierte Felder sind Platzhalter und müssen vor Veröffentlichung mit den tatsächlichen Vereinsdaten befüllt werden. Ein unvollständiges Impressum stellt eine Verwaltungsübertretung dar und kann mit Geldstrafen von bis zu € 3.000 (ECG) bzw. bis zu € 20.000 (MedienG) geahndet werden.</p>
+  </div>
+
+  <!-- 1 – Medieninhaber & Vereinsdaten -->
+  <div class="section">
+    <div class="section-head">
+      <span class="num">1</span>
+      <h2>Medieninhaber &amp; Herausgeber <span class="law-ref">§ 25 MedienG</span> <span class="law-ref">§ 5 ECG</span></h2>
+    </div>
+    <div class="card">
+      <div class="row">
+        <span class="row-label">Vereinsname</span>
+        <span class="row-value">Sportfreunde helfen</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Rechtsform</span>
+        <span class="row-value">Verein im Sinne des Vereinsgesetzes 2002 (VerG)</span>
+      </div>
+      <div class="row">
+        <span class="row-label">ZVR-Zahl</span>
+        <span class="row-value"><span class="ph">ZVR-XXXXXXXXX</span></span>
+      </div>
+      <div class="row">
+        <span class="row-label">Vereinssitz</span>
+        <span class="row-value"><span class="ph">Musterstraße 1, 1010 Wien, Österreich</span></span>
+      </div>
+      <div class="row">
+        <span class="row-label">Vereinszweck</span>
+        <span class="row-value"><span class="ph">Beschreibung des Vereinszwecks laut Statuten eintragen (z. B. „Förderung des Sports und der sozialen Hilfe durch sportliche Aktivitäten")</span></span>
+      </div>
+      <div class="row">
+        <span class="row-label">Vereinsbehörde</span>
+        <span class="row-value"><span class="ph">Bezirkshauptmannschaft / Magistrat [Bezirk]</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 – Vertretungsbefugte Organe -->
+  <div class="section">
+    <div class="section-head">
+      <span class="num">2</span>
+      <h2>Vertretungsbefugte Organe (Vorstand) <span class="law-ref">§ 25 Abs. 2 MedienG</span></h2>
+    </div>
+    <div class="card">
+      <div class="row">
+        <span class="row-label">Obmann / Obfrau</span>
+        <span class="row-value"><span class="ph">Vorname Nachname</span></span>
+      </div>
+      <div class="row">
+        <span class="row-label">Obmann-Stv. / Obfrau-Stv.</span>
+        <span class="row-value"><span class="ph">Vorname Nachname</span></span>
+      </div>
+      <div class="row">
+        <span class="row-label">Schriftführer/in</span>
+        <span class="row-value"><span class="ph">Vorname Nachname</span></span>
+      </div>
+      <div class="row">
+        <span class="row-label">Kassier/in</span>
+        <span class="row-value"><span class="ph">Vorname Nachname</span></span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p>Gemäß § 25 Abs. 2 MedienG sind bei Vereinen als Medieninhaber die Mitglieder des Vorstands (vertretungsbefugte Organe) namentlich anzuführen. Falls ein Aufsichtsrat besteht, sind auch dessen Mitglieder zu nennen.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 – Kontaktdaten -->
+  <div class="section">
+    <div class="section-head">
+      <span class="num">3</span>
+      <h2>Kontaktdaten <span class="law-ref">§ 5 Abs. 1 Z 3 ECG</span></h2>
+    </div>
+    <div class="card">
+      <div class="row">
+        <span class="row-label">E-Mail</span>
+        <span class="row-value"><span class="ph">kontakt@sportfreunde-helfen.at</span></span>
+      </div>
+      <div class="row">
+        <span class="row-label">Telefon</span>
+        <span class="row-value"><span class="ph">+43 XXX XXXXXXX</span></span>
+      </div>
+      <div class="row">
+        <span class="row-label">Website</span>
+        <span class="row-value">https://sportfreunde.netlify.com</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p>Das ECG verlangt mindestens zwei Kontaktwege, über die Nutzer rasch und unmittelbar in Verbindung treten können (z. B. E-Mail + Telefon oder E-Mail + Kontaktformular).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 – Steuerliche Angaben -->
+  <div class="section">
+    <div class="section-head">
+      <span class="num">4</span>
+      <h2>Steuerliche Angaben</h2>
+    </div>
+    <div class="card">
+      <div class="row">
+        <span class="row-label">UID-Nummer</span>
+        <span class="row-value"><span class="ph">ATU XXXXXXXX (falls vergeben)</span></span>
+      </div>
+      <div class="row">
+        <span class="row-label">Zuständiges Finanzamt</span>
+        <span class="row-value"><span class="ph">Finanzamt Österreich, Dienststelle [Bezeichnung]</span></span>
+      </div>
+      <div class="row">
+        <span class="row-label">Gemeinnützigkeit</span>
+        <span class="row-value"><span class="ph">Angabe, ob der Verein als gemeinnützig gem. §§ 34 ff BAO anerkannt ist</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 – Grundlegende Richtung -->
+  <div class="section">
+    <div class="section-head">
+      <span class="num">5</span>
+      <h2>Grundlegende Richtung des Mediums <span class="law-ref">§ 25 Abs. 4 MedienG</span></h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p>Diese Website dient der Information über die Tätigkeiten, Projekte und Veranstaltungen des Vereins „Sportfreunde helfen". Sie verfolgt das Ziel, über die gemeinnützige Arbeit des Vereins zu berichten, Unterstützerinnen und Unterstützer zu gewinnen und den Vereinszweck einer breiteren Öffentlichkeit zugänglich zu machen.</p>
+        <p><span class="ph">Hinweis: Falls die Website über die reine Vereinspräsentation hinaus meinungsbildende Inhalte enthält (z. B. redaktionelle Beiträge, Kommentare, Stellungnahmen), handelt es sich um eine „große Website" i. S. d. § 25 Abs. 2–4 MedienG. In diesem Fall sind erweiterte Offenlegungspflichten zu erfüllen, insb. Angaben zu Beteiligungsverhältnissen.</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 – Haftung für Inhalte -->
+  <div class="section">
+    <div class="section-head">
+      <span class="num">6</span>
+      <h2>Haftungsausschluss <span class="law-ref">§§ 16–18 ECG</span></h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <h3>Haftung für eigene Inhalte</h3>
+        <p>Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Der Verein „Sportfreunde helfen" übernimmt jedoch keine Gewähr für die Richtigkeit, Vollständigkeit und Aktualität der bereitgestellten Inhalte. Als Medieninhaber ist der Verein gemäß § 16 ECG für eigene Inhalte nach den allgemeinen Gesetzen verantwortlich. Eine Verpflichtung zur Überwachung übermittelter oder gespeicherter fremder Informationen oder zur Nachforschung nach rechtswidrigen Tätigkeiten besteht nach §§ 16–18 ECG nicht.</p>
+
+        <h3>Haftung für verlinkte Inhalte</h3>
+        <p>Diese Website enthält Verknüpfungen (Hyperlinks) zu Websites Dritter, auf deren Inhalte der Verein keinen Einfluss hat. Zum Zeitpunkt der erstmaligen Verlinkung wurden die verlinkten Seiten auf mögliche Rechtsverstöße überprüft; rechtswidrige Inhalte waren zu diesem Zeitpunkt nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden derartige Links umgehend entfernt.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7 – Urheberrecht -->
+  <div class="section">
+    <div class="section-head">
+      <span class="num">7</span>
+      <h2>Urheberrecht <span class="law-ref">UrhG</span></h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p>Die auf dieser Website veröffentlichten Inhalte und Werke unterliegen dem österreichischen Urheberrecht (Bundesgesetz über das Urheberrecht an Werken der Literatur und der Kunst und über verwandte Schutzrechte – UrhG). Jede Art der Vervielfältigung, Bearbeitung, Verbreitung und Verwertung außerhalb der Grenzen des Urheberrechts bedarf der vorherigen schriftlichen Zustimmung des Vereins. Downloads und Kopien dieser Seite sind nur für den privaten, nicht-kommerziellen Gebrauch gestattet.</p>
+        <p>Soweit die Inhalte nicht vom Verein erstellt wurden, werden die Urheberrechte Dritter beachtet und als solche gekennzeichnet. Sollten Sie auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis per E-Mail.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8 – Datenschutz -->
+  <div class="section">
+    <div class="section-head">
+      <span class="num">8</span>
+      <h2>Datenschutzerklärung <span class="law-ref">DSGVO</span> <span class="law-ref">TKG 2021</span></h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <h3>Verantwortlicher gemäß Art. 4 Nr. 7 DSGVO</h3>
+        <p>Sportfreunde helfen<br>
+        <span class="ph">Musterstraße 1, 1010 Wien</span><br>
+        E-Mail: <span class="ph">kontakt@sportfreunde-helfen.at</span><br>
+        Telefon: <span class="ph">+43 XXX XXXXXXX</span></p>
+
+        <h3>Grundsätze der Datenverarbeitung</h3>
+        <p>Der Verein verarbeitet personenbezogene Daten nur im Einklang mit der Datenschutz-Grundverordnung (DSGVO) und dem österreichischen Datenschutzgesetz (DSG). Personenbezogene Daten werden nur erhoben, wenn dies zur Bereitstellung der Website oder zur Erfüllung des Vereinszwecks erforderlich ist.</p>
+
+        <h3>Ihre Rechte gemäß Art. 15–22 DSGVO</h3>
+        <p>Sie haben das Recht auf:</p>
+        <ul>
+          <li><strong>Auskunft</strong> (Art. 15 DSGVO) über Ihre gespeicherten Daten</li>
+          <li><strong>Berichtigung</strong> (Art. 16 DSGVO) unrichtiger Daten</li>
+          <li><strong>Löschung</strong> (Art. 17 DSGVO) Ihrer Daten</li>
+          <li><strong>Einschränkung der Verarbeitung</strong> (Art. 18 DSGVO)</li>
+          <li><strong>Datenübertragbarkeit</strong> (Art. 20 DSGVO)</li>
+          <li><strong>Widerspruch</strong> (Art. 21 DSGVO) gegen die Verarbeitung</li>
+        </ul>
+        <p>Zur Ausübung Ihrer Rechte wenden Sie sich bitte per E-Mail an uns.</p>
+
+        <h3>Beschwerderecht bei der Aufsichtsbehörde</h3>
+        <p>Wenn Sie der Ansicht sind, dass die Verarbeitung Ihrer Daten gegen das Datenschutzrecht verstößt, können Sie sich bei der zuständigen Aufsichtsbehörde beschweren:</p>
+        <p>Österreichische Datenschutzbehörde<br>
+        Barichgasse 40–42, 1030 Wien<br>
+        Telefon: +43 1 521 52-2569<br>
+        E-Mail: dsb@dsb.gv.at<br>
+        Website: <a href="https://www.dsb.gv.at" target="_blank" rel="noopener">www.dsb.gv.at</a></p>
+
+        <h3>Server-Logfiles und Hosting</h3>
+        <p>Diese Website wird über <strong>Netlify, Inc.</strong> (2325 3rd Street, Suite 296, San Francisco, CA 94107, USA) gehostet. Beim Aufruf der Website werden automatisch technische Daten durch den Hosting-Anbieter erhoben (sog. Server-Logfiles):</p>
+        <ul>
+          <li>IP-Adresse des zugreifenden Endgeräts</li>
+          <li>Datum und Uhrzeit der Anfrage</li>
+          <li>Name und URL der abgerufenen Seite</li>
+          <li>Browsertyp und -version, Betriebssystem</li>
+          <li>Referrer-URL (zuvor besuchte Seite)</li>
+        </ul>
+        <p>Die Verarbeitung erfolgt auf Grundlage des berechtigten Interesses an der technischen Bereitstellung und Sicherheit der Website (Art. 6 Abs. 1 lit. f DSGVO). Netlify kann Daten in den USA verarbeiten; die Datenübermittlung basiert auf EU-Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO).</p>
+
+        <h3>Cookies</h3>
+        <p><span class="ph">Hier angeben, ob und welche Cookies eingesetzt werden. Beispiele: „Diese Website verwendet keine Cookies." ODER „Diese Website verwendet ausschließlich technisch notwendige Cookies gemäß § 165 Abs. 3 TKG 2021, die keine Einwilligung erfordern." ODER bei Analyse-Cookies: Einwilligungspflicht gemäß § 165 Abs. 2 TKG 2021 beachten und Cookie-Banner implementieren.</span></p>
+
+        <h3>Kontaktformular / E-Mail-Kontakt</h3>
+        <p><span class="ph">Falls ein Kontaktformular oder E-Mail-Kontakt angeboten wird: Welche Daten werden erhoben (z. B. Name, E-Mail, Nachricht)? Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) oder Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung). Speicherdauer: z. B. „Daten werden nach Abschluss der Bearbeitung gelöscht, sofern keine gesetzlichen Aufbewahrungspflichten bestehen."</span></p>
+
+        <h3>Spenden &amp; Zahlungsabwicklung</h3>
+        <p><span class="ph">Falls Spenden über die Website entgegengenommen werden: Welcher Zahlungsdienstleister wird verwendet (z. B. PayPal, Stripe, Banktransfer)? Welche Daten werden dabei verarbeitet? Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung). Aufbewahrungsfristen nach BAO: 7 Jahre.</span></p>
+
+        <h3>Newsletter</h3>
+        <p><span class="ph">Falls ein Newsletter angeboten wird: Welcher Versanddienstleister wird verwendet? Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO (Einwilligung). Hinweis auf jederzeitiges Widerrufsrecht. Double-Opt-In-Verfahren beschreiben.</span></p>
+
+        <h3>Social Media</h3>
+        <p><span class="ph">Falls Social-Media-Plugins oder Links eingebunden sind (z. B. Facebook, Instagram): Beschreibung der Einbindung und ggf. Datenübermittlung an Dritte. Bei aktiven Plugins: Hinweis auf gemeinsame Verantwortlichkeit gem. Art. 26 DSGVO.</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9 – Anwendbares Recht -->
+  <div class="section">
+    <div class="section-head">
+      <span class="num">9</span>
+      <h2>Anwendbares Recht &amp; Streitbeilegung</h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p>Es gilt ausschließlich österreichisches Recht unter Ausschluss der Verweisungsnormen des internationalen Privatrechts und des UN-Kaufrechts. Für sämtliche Streitigkeiten aus oder im Zusammenhang mit dieser Website ist, soweit gesetzlich zulässig, das sachlich zuständige Gericht am Vereinssitz zuständig.</p>
+        <p>Der Verein ist weder bereit noch verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 – Bildnachweise -->
+  <div class="section">
+    <div class="section-head">
+      <span class="num">10</span>
+      <h2>Bildnachweise &amp; Credits</h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p><span class="ph">Angabe sämtlicher Bildquellen, Fotografen und Lizenzen. Beispiel:<br>
+        „Headerbild: © Vorname Nachname / Unsplash (Lizenz: Unsplash License)<br>
+        Icons: Lucide Icons (MIT License)<br>
+        Vereinsfotos: © Sportfreunde helfen"</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gesetzliche Grundlagen -->
+  <div class="section">
+    <div class="section-head">
+      <span class="num">&sect;</span>
+      <h2>Gesetzliche Grundlagen (Übersicht)</h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p>Die Pflichtangaben dieses Impressums basieren auf folgenden österreichischen und europäischen Rechtsgrundlagen:</p>
+        <ul>
+          <li><strong>§ 5 E-Commerce-Gesetz (ECG)</strong> – Allgemeine Informationspflichten für Diensteanbieter im Internet</li>
+          <li><strong>§ 24 Mediengesetz (MedienG)</strong> – Impressumspflicht für Medienwerke und elektronische Medien</li>
+          <li><strong>§ 25 Mediengesetz (MedienG)</strong> – Offenlegungspflicht: Angaben zum Medieninhaber, Vereinsvorstand, Vereinszweck und grundlegender Richtung</li>
+          <li><strong>Vereinsgesetz 2002 (VerG)</strong> – Pflicht zur Angabe der ZVR-Zahl im Rechtsverkehr</li>
+          <li><strong>Datenschutz-Grundverordnung (DSGVO)</strong> – Informationspflichten gemäß Art. 13 &amp; 14</li>
+          <li><strong>Datenschutzgesetz (DSG)</strong> – Nationale Ergänzungen zur DSGVO</li>
+          <li><strong>Telekommunikationsgesetz 2021 (TKG 2021)</strong> – § 165: Bestimmungen zu Cookies und elektronischer Kommunikation</li>
+        </ul>
+        <p>Die vollständigen Gesetzestexte sind über das <a href="https://www.ris.bka.gv.at" target="_blank" rel="noopener">Rechtsinformationssystem des Bundes (RIS)</a> abrufbar.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    &copy; 2026 Sportfreunde helfen &middot; Alle Rechte vorbehalten
+    <span>Zuletzt aktualisiert: <span class="ph">TT.MM.JJJJ</span></span>
+  </div>
+
+</div>
+
+</body>
+</html>

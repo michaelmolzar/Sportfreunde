@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datenschutzerklärung – Sportfreunde helfen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --clr-bg: #f4f2ed;
+      --clr-surface: #ffffff;
+      --clr-text: #1c1c1c;
+      --clr-muted: #5e5e5e;
+      --clr-light: #8a8a8a;
+      --clr-accent: #1a5632;
+      --clr-accent-soft: #e4f0e8;
+      --clr-placeholder: #b84600;
+      --clr-placeholder-bg: #fff4ec;
+      --clr-placeholder-border: #ffd6b3;
+      --clr-border: #ddd9d0;
+      --clr-divider: #eeebe4;
+      --clr-warning-bg: #fffbe6;
+      --clr-warning-border: #e6d566;
+      --clr-warning-text: #6b5900;
+      --clr-info-bg: #eef4ff;
+      --clr-info-border: #a3bffa;
+      --clr-info-text: #1e3a5f;
+      --font-body: 'Source Sans 3', -apple-system, sans-serif;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --radius: 8px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--clr-bg);
+      color: var(--clr-text);
+      line-height: 1.75;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--clr-light);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: color 0.2s;
+    }
+    .back:hover { color: var(--clr-accent); }
+    .back svg { width: 15px; height: 15px; }
+
+    .header { margin-bottom: 2.5rem; }
+    .header h1 {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+    .header .lead {
+      font-size: 0.95rem;
+      color: var(--clr-muted);
+      max-width: 620px;
+    }
+
+    /* TOC */
+    .toc {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 2.5rem;
+    }
+    .toc-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--clr-accent);
+      margin-bottom: 0.8rem;
+    }
+    .toc ol {
+      margin: 0;
+      padding-left: 1.2rem;
+      counter-reset: toc-counter;
+    }
+    .toc li {
+      font-size: 0.87rem;
+      margin-bottom: 0.3rem;
+      color: var(--clr-muted);
+    }
+    .toc a {
+      color: var(--clr-text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .toc a:hover { color: var(--clr-accent); text-decoration: underline; }
+
+    /* Notice boxes */
+    .notice {
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 0.7rem;
+      align-items: flex-start;
+    }
+    .notice svg { flex-shrink: 0; margin-top: 2px; }
+    .notice p { font-size: 0.85rem; line-height: 1.6; }
+    .notice strong { font-weight: 700; }
+    .notice--warn {
+      background: var(--clr-warning-bg);
+      border: 1px solid var(--clr-warning-border);
+    }
+    .notice--warn svg, .notice--warn p { color: var(--clr-warning-text); }
+    .notice--info {
+      background: var(--clr-info-bg);
+      border: 1px solid var(--clr-info-border);
+    }
+    .notice--info svg, .notice--info p { color: var(--clr-info-text); }
+
+    /* Sections */
+    .section { margin-bottom: 2.2rem; }
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .section-head .num {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: var(--clr-accent);
+      color: #fff;
+      font-size: 0.7rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-head h2 {
+      font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--clr-accent);
+    }
+
+    .card {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .card + .card { margin-top: 0.5rem; }
+
+    .row {
+      display: flex;
+      padding: 0.75rem 1.4rem;
+      border-bottom: 1px solid var(--clr-divider);
+      gap: 1rem;
+    }
+    .row:last-child { border-bottom: none; }
+    .row-label {
+      min-width: 180px;
+      font-size: 0.85rem;
+      color: var(--clr-muted);
+      flex-shrink: 0;
+    }
+    .row-value {
+      font-size: 0.9rem;
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .ph {
+      display: inline-block;
+      color: var(--clr-placeholder);
+      background: var(--clr-placeholder-bg);
+      border: 1px dashed var(--clr-placeholder-border);
+      padding: 0.15em 0.55em;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .legal { padding: 1.2rem 1.4rem; }
+    .legal h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; margin-top: 0.8rem; }
+    .legal h3:first-child { margin-top: 0; }
+    .legal p {
+      font-size: 0.87rem; color: var(--clr-muted);
+      margin-bottom: 0.9rem; line-height: 1.75;
+    }
+    .legal p:last-child { margin-bottom: 0; }
+    .legal ul, .legal ol {
+      margin: 0.5rem 0 1rem 1.2rem;
+      font-size: 0.87rem; color: var(--clr-muted);
+    }
+    .legal ul li, .legal ol li { margin-bottom: 0.35rem; line-height: 1.65; }
+    .legal a {
+      color: var(--clr-accent);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .law-ref {
+      display: inline-block;
+      font-size: 0.7rem; font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--clr-light);
+      background: var(--clr-bg);
+      border: 1px solid var(--clr-border);
+      padding: 0.15em 0.5em;
+      border-radius: 3px;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+
+    /* Data processing table */
+    .dp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+    }
+    .dp-table th {
+      background: var(--clr-accent-soft);
+      color: var(--clr-accent);
+      font-weight: 700;
+      text-align: left;
+      padding: 0.6rem 0.8rem;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .dp-table td {
+      padding: 0.6rem 0.8rem;
+      border-bottom: 1px solid var(--clr-divider);
+      color: var(--clr-muted);
+      vertical-align: top;
+    }
+    .dp-table tr:last-child td { border-bottom: none; }
+
+    .footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--clr-border);
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--clr-light);
+    }
+    .footer span { display: block; margin-top: 0.3rem; }
+
+    @media (max-width: 560px) {
+      .page { padding: 1.5rem 1rem 3rem; }
+      .header h1 { font-size: 1.7rem; }
+      .row { flex-direction: column; gap: 0.15rem; padding: 0.65rem 1rem; }
+      .row-label { min-width: unset; }
+      .dp-table { font-size: 0.78rem; }
+      .dp-table th, .dp-table td { padding: 0.5rem 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <a href="/" class="back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    Zurück zur Startseite
+  </a>
+
+  <div class="header">
+    <h1>Datenschutzerklärung</h1>
+    <p class="lead">Informationen zur Verarbeitung personenbezogener Daten gemäß Art. 13 und 14 der Datenschutz-Grundverordnung (DSGVO) in Verbindung mit dem österreichischen Datenschutzgesetz (DSG).</p>
+  </div>
+
+  <!-- Platzhalter-Hinweis -->
+  <div class="notice notice--warn">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <p><strong>Hinweis:</strong> Orange markierte Felder sind Platzhalter. Diese müssen vor Veröffentlichung der Website mit den tatsächlichen Vereinsdaten befüllt werden. Die Datenschutzerklärung muss an die konkreten Verarbeitungstätigkeiten des Vereins angepasst werden.</p>
+  </div>
+
+  <!-- Inhaltsverzeichnis -->
+  <div class="toc">
+    <div class="toc-title">Inhaltsverzeichnis</div>
+    <ol>
+      <li><a href="#verantwortlicher">Verantwortlicher</a></li>
+      <li><a href="#grundsaetze">Grundsätze der Datenverarbeitung</a></li>
+      <li><a href="#rechtsgrundlagen">Rechtsgrundlagen der Verarbeitung</a></li>
+      <li><a href="#mitglieder">Verarbeitung von Mitgliederdaten</a></li>
+      <li><a href="#spender">Verarbeitung von Spenderdaten</a></li>
+      <li><a href="#veranstaltungen">Veranstaltungen &amp; Teilnehmerdaten</a></li>
+      <li><a href="#website">Datenverarbeitung auf der Website</a></li>
+      <li><a href="#hosting">Hosting &amp; technische Infrastruktur</a></li>
+      <li><a href="#cookies">Cookies &amp; Tracking</a></li>
+      <li><a href="#kontakt">Kontaktaufnahme</a></li>
+      <li><a href="#newsletter">Newsletter</a></li>
+      <li><a href="#social-media">Social Media</a></li>
+      <li><a href="#fotos">Fotos &amp; Bildmaterial</a></li>
+      <li><a href="#weitergabe">Weitergabe an Dritte &amp; Auftragsverarbeiter</a></li>
+      <li><a href="#drittland">Datenübermittlung in Drittländer</a></li>
+      <li><a href="#speicherdauer">Speicherdauer</a></li>
+      <li><a href="#rechte">Ihre Rechte als betroffene Person</a></li>
+      <li><a href="#beschwerde">Beschwerderecht</a></li>
+      <li><a href="#datenschutzbeauftragter">Datenschutzbeauftragter</a></li>
+      <li><a href="#aenderungen">Änderungen dieser Datenschutzerklärung</a></li>
+    </ol>
+  </div>
+
+  <!-- 1. Verantwortlicher -->
+  <div class="section" id="verantwortlicher">
+    <div class="section-head">
+      <span class="num">1</span>
+      <h2>Verantwortlicher <span class="law-ref">Art. 4 Nr. 7 DSGVO</span></h2>
+    </div>
+    <div class="card">
+      <div class="row">
+        <span class="row-label">Vereinsname</span>
+        <span class="row-value">Sportfreunde helfen</span>
+      </div>
+      <div class="row">
+        <span class="row-label">ZVR-Zahl</span>
+        <span class="row-value"><span class="ph">ZVR-XXXXXXXXX</span></span>
+      </div>
+      <div class="row">
+        <span class="row-label">Anschrift</span>
+        <span class="row-value"><span class="ph">Musterstraße 1, 1010 Wien, Österreich</span></span>
+      </div>
+      <div class="row">
+        <span class="row-label">Vertretung</span>
+        <span class="row-value"><span class="ph">Vorname Nachname (Obmann/Obfrau)</span></span>
+      </div>
+      <div class="row">
+        <span class="row-label">E-Mail</span>
+        <span class="row-value"><span class="ph">datenschutz@sportfreunde-helfen.at</span></span>
+      </div>
+      <div class="row">
+        <span class="row-label">Telefon</span>
+        <span class="row-value"><span class="ph">+43 XXX XXXXXXX</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Grundsätze -->
+  <div class="section" id="grundsaetze">
+    <div class="section-head">
+      <span class="num">2</span>
+      <h2>Grundsätze der Datenverarbeitung <span class="law-ref">Art. 5 DSGVO</span></h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p>Der Verein „Sportfreunde helfen" nimmt den Schutz Ihrer personenbezogenen Daten sehr ernst. Wir verarbeiten Ihre Daten ausschließlich auf Grundlage der gesetzlichen Bestimmungen der Datenschutz-Grundverordnung (DSGVO), des österreichischen Datenschutzgesetzes (DSG) und des Telekommunikationsgesetzes 2021 (TKG 2021).</p>
+        <p>Bei der Verarbeitung personenbezogener Daten halten wir uns an folgende Grundsätze:</p>
+        <ul>
+          <li><strong>Rechtmäßigkeit, Verarbeitung nach Treu und Glauben, Transparenz</strong> – Daten werden nur auf rechtmäßiger Grundlage und in nachvollziehbarer Weise verarbeitet.</li>
+          <li><strong>Zweckbindung</strong> – Daten werden nur für festgelegte, eindeutige und legitime Zwecke erhoben.</li>
+          <li><strong>Datenminimierung</strong> – Wir erheben nur jene Daten, die für den jeweiligen Zweck tatsächlich erforderlich sind.</li>
+          <li><strong>Richtigkeit</strong> – Wir treffen angemessene Maßnahmen, um unrichtige Daten zu berichtigen oder zu löschen.</li>
+          <li><strong>Speicherbegrenzung</strong> – Daten werden nur so lange gespeichert, wie es für den Verarbeitungszweck erforderlich ist.</li>
+          <li><strong>Integrität und Vertraulichkeit</strong> – Wir schützen Daten durch geeignete technische und organisatorische Maßnahmen.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Rechtsgrundlagen -->
+  <div class="section" id="rechtsgrundlagen">
+    <div class="section-head">
+      <span class="num">3</span>
+      <h2>Rechtsgrundlagen der Verarbeitung <span class="law-ref">Art. 6 DSGVO</span></h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p>Die Verarbeitung personenbezogener Daten durch den Verein erfolgt auf Basis folgender Rechtsgrundlagen:</p>
+        <ul>
+          <li><strong>Art. 6 Abs. 1 lit. a DSGVO – Einwilligung:</strong> Sie haben Ihre Einwilligung zur Verarbeitung für einen bestimmten Zweck erteilt (z. B. Newsletter, Fotos). Die Einwilligung kann jederzeit widerrufen werden.</li>
+          <li><strong>Art. 6 Abs. 1 lit. b DSGVO – Vertragserfüllung:</strong> Die Verarbeitung ist zur Erfüllung des Mitgliedschaftsverhältnisses oder vorvertraglicher Maßnahmen erforderlich (z. B. Mitgliederverwaltung, Beitragseinzug).</li>
+          <li><strong>Art. 6 Abs. 1 lit. c DSGVO – Rechtliche Verpflichtung:</strong> Die Verarbeitung ist zur Erfüllung gesetzlicher Pflichten erforderlich (z. B. Aufbewahrungspflichten nach der Bundesabgabenordnung – BAO).</li>
+          <li><strong>Art. 6 Abs. 1 lit. f DSGVO – Berechtigtes Interesse:</strong> Die Verarbeitung ist zur Wahrung berechtigter Interessen des Vereins erforderlich, sofern nicht Ihre Interessen oder Grundrechte überwiegen (z. B. Öffentlichkeitsarbeit, Website-Betrieb).</li>
+        </ul>
+        <p>Bei Kindern und Jugendlichen unter 14 Jahren ist für die Einwilligung gemäß § 4 Abs. 4 DSG zusätzlich die Zustimmung der Erziehungsberechtigten erforderlich.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Mitgliederdaten -->
+  <div class="section" id="mitglieder">
+    <div class="section-head">
+      <span class="num">4</span>
+      <h2>Verarbeitung von Mitgliederdaten</h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <h3>Welche Daten werden erhoben?</h3>
+        <p>Im Rahmen der Mitgliedschaft werden folgende personenbezogene Daten verarbeitet:</p>
+        <ul>
+          <li>Name, Vorname, Titel</li>
+          <li>Geburtsdatum</li>
+          <li>Geschlecht</li>
+          <li>Wohnanschrift</li>
+          <li>E-Mail-Adresse, Telefonnummer</li>
+          <li>Bankverbindung (IBAN) für den Einzug des Mitgliedsbeitrags</li>
+          <li>Datum des Vereinsbeitritts und ggf. -austritts</li>
+          <li><span class="ph">Weitere Daten je nach Vereinszweck ergänzen, z. B.: Sportart, Mannschaftszugehörigkeit, Kleidergröße, Allergien/Unverträglichkeiten (bei Veranstaltungen), Notfallkontakt</span></li>
+        </ul>
+
+        <h3>Zweck der Verarbeitung</h3>
+        <ul>
+          <li>Verwaltung der Mitgliedschaft und Kommunikation mit Mitgliedern</li>
+          <li>Einzug und Verwaltung der Mitgliedsbeiträge</li>
+          <li>Organisation und Durchführung des Vereinsbetriebs</li>
+          <li>Meldung an Dachverbände (sofern satzungsmäßig vorgesehen)</li>
+          <li>Erfüllung gesetzlicher Aufbewahrungs- und Buchführungspflichten</li>
+        </ul>
+
+        <h3>Rechtsgrundlage</h3>
+        <p>Art. 6 Abs. 1 lit. b DSGVO (Erfüllung des Mitgliedschaftsvertrags) sowie Art. 6 Abs. 1 lit. c DSGVO (gesetzliche Verpflichtungen, insb. BAO).</p>
+
+        <h3>Speicherdauer</h3>
+        <p>Mitgliederdaten werden für die Dauer der Mitgliedschaft gespeichert. Nach Austritt werden die Daten gelöscht, sobald keine gesetzlichen Aufbewahrungspflichten mehr bestehen (in der Regel 7 Jahre gem. § 132 BAO für buchhalterisch relevante Daten).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Spenderdaten -->
+  <div class="section" id="spender">
+    <div class="section-head">
+      <span class="num">5</span>
+      <h2>Verarbeitung von Spenderdaten</h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p><span class="ph">Diesen Abschnitt nur aufnehmen, falls der Verein Spenden entgegennimmt.</span></p>
+        <h3>Welche Daten werden erhoben?</h3>
+        <ul>
+          <li>Name, Vorname</li>
+          <li>Anschrift (für Spendenbestätigungen)</li>
+          <li>E-Mail-Adresse</li>
+          <li>Spendenbetrag und -datum</li>
+          <li>Zahlungsinformationen (je nach Zahlungsmethode)</li>
+        </ul>
+
+        <h3>Zweck &amp; Rechtsgrundlage</h3>
+        <p>Die Daten werden zur Abwicklung der Spende, zur Ausstellung von Spendenbestätigungen und zur Erfüllung steuerlicher Aufbewahrungspflichten verarbeitet. Rechtsgrundlage: Art. 6 Abs. 1 lit. b und c DSGVO.</p>
+
+        <h3>Speicherdauer</h3>
+        <p>Spendenbezogene Daten werden für die gesetzliche Aufbewahrungsfrist von 7 Jahren (§ 132 BAO) gespeichert.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Veranstaltungen -->
+  <div class="section" id="veranstaltungen">
+    <div class="section-head">
+      <span class="num">6</span>
+      <h2>Veranstaltungen &amp; Teilnehmerdaten</h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p><span class="ph">Diesen Abschnitt nur aufnehmen, falls der Verein Veranstaltungen durchführt, bei denen Anmeldungen erforderlich sind.</span></p>
+        <h3>Welche Daten werden erhoben?</h3>
+        <ul>
+          <li>Name, Vorname, Geburtsdatum</li>
+          <li>Kontaktdaten (E-Mail, Telefon)</li>
+          <li>Ggf. Gesundheitsdaten (Allergien, besondere Bedürfnisse) – nur mit ausdrücklicher Einwilligung</li>
+          <li>Notfallkontakt</li>
+        </ul>
+
+        <h3>Zweck &amp; Rechtsgrundlage</h3>
+        <p>Organisation und Durchführung von Vereinsveranstaltungen, Gewährleistung der Sicherheit der Teilnehmer. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertrag/Anmeldung); für Gesundheitsdaten: Art. 9 Abs. 2 lit. a DSGVO (ausdrückliche Einwilligung).</p>
+
+        <h3>Speicherdauer</h3>
+        <p>Teilnehmerdaten werden nach Abschluss der Veranstaltung gelöscht, sofern keine gesetzlichen Aufbewahrungspflichten bestehen. Bei minderjährigen Teilnehmern gelten besondere Sorgfaltspflichten.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Website -->
+  <div class="section" id="website">
+    <div class="section-head">
+      <span class="num">7</span>
+      <h2>Datenverarbeitung auf der Website <span class="law-ref">§ 165 TKG 2021</span></h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <h3>Automatisch erfasste Daten (Server-Logfiles)</h3>
+        <p>Beim Besuch unserer Website werden automatisch folgende Daten durch den Webserver erfasst und in Server-Logfiles gespeichert:</p>
+        <ul>
+          <li>IP-Adresse des zugreifenden Endgeräts</li>
+          <li>Datum und Uhrzeit des Zugriffs</li>
+          <li>Name und URL der abgerufenen Seite</li>
+          <li>Übertragene Datenmenge</li>
+          <li>HTTP-Statuscode</li>
+          <li>Browsertyp und -version</li>
+          <li>Betriebssystem</li>
+          <li>Referrer-URL (zuvor besuchte Seite)</li>
+        </ul>
+        <p>Diese Daten werden ausschließlich zur technischen Sicherstellung und Optimierung des Serverbetriebs verwendet. Ein Rückschluss auf einzelne Personen wird von uns nicht vorgenommen und ist auch nicht beabsichtigt.</p>
+        <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der technischen Bereitstellung und Sicherheit der Website).</p>
+        <p><strong>Speicherdauer:</strong> Server-Logfiles werden <span class="ph">nach [Zeitraum, z. B. 14 Tage / 30 Tage] automatisch gelöscht</span>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Hosting -->
+  <div class="section" id="hosting">
+    <div class="section-head">
+      <span class="num">8</span>
+      <h2>Hosting &amp; technische Infrastruktur</h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <h3>Netlify</h3>
+        <p>Diese Website wird gehostet von:</p>
+        <p><strong>Netlify, Inc.</strong><br>
+        2325 3rd Street, Suite 296<br>
+        San Francisco, CA 94107, USA</p>
+        <p>Beim Aufruf unserer Website stellt Ihr Browser automatisch eine Verbindung zu den Servern von Netlify her. Dabei werden die oben genannten Server-Logfile-Daten an Netlify übermittelt.</p>
+        <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einem zuverlässigen und sicheren Website-Betrieb).</p>
+        <p><strong>Datenübermittlung in die USA:</strong> Netlify verarbeitet Daten ggf. in den USA. Die Datenübermittlung erfolgt auf Grundlage von EU-Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO). Weitere Informationen: <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener">Netlify Privacy Policy</a>.</p>
+
+        <p><span class="ph">Falls weitere Dienste verwendet werden (z. B. Content Delivery Networks, Schriftarten-Dienste wie Google Fonts, Analyse-Tools), sind diese hier einzeln aufzuführen mit Anbieter, Zweck, Rechtsgrundlage und ggf. Drittlandübermittlung.</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. Cookies -->
+  <div class="section" id="cookies">
+    <div class="section-head">
+      <span class="num">9</span>
+      <h2>Cookies &amp; Tracking <span class="law-ref">§ 165 TKG 2021</span></h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p><span class="ph">Hier die tatsächlich verwendeten Cookies beschreiben. Nachfolgend Varianten je nach Einsatz:</span></p>
+
+        <h3>Variante A: Keine Cookies</h3>
+        <p><span class="ph">„Diese Website verwendet keine Cookies und setzt keine Tracking-Technologien ein."</span></p>
+
+        <h3>Variante B: Nur technisch notwendige Cookies</h3>
+        <p><span class="ph">„Diese Website verwendet ausschließlich technisch notwendige Cookies, die für den Betrieb der Seite erforderlich sind. Diese Cookies erfordern gemäß § 165 Abs. 3 TKG 2021 keine Einwilligung."</span></p>
+
+        <h3>Variante C: Analyse-/Marketing-Cookies</h3>
+        <p><span class="ph">Falls Analyse-Tools (z. B. Google Analytics, Matomo) oder Marketing-Cookies eingesetzt werden: Diese erfordern gemäß § 165 Abs. 2 TKG 2021 eine vorherige Einwilligung des Nutzers (Opt-In). Ein Cookie-Banner/Consent-Management-Tool ist erforderlich. Hier Details zu jedem Cookie angeben: Name, Anbieter, Zweck, Speicherdauer, Rechtsgrundlage.</span></p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <h3>Übersicht der eingesetzten Cookies</h3>
+        <table class="dp-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Anbieter</th>
+              <th>Zweck</th>
+              <th>Dauer</th>
+              <th>Typ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="ph">cookie_name</span></td>
+              <td><span class="ph">Anbieter</span></td>
+              <td><span class="ph">Zweck beschreiben</span></td>
+              <td><span class="ph">z. B. Session / 1 Jahr</span></td>
+              <td><span class="ph">Notwendig / Analyse / Marketing</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. Kontaktaufnahme -->
+  <div class="section" id="kontakt">
+    <div class="section-head">
+      <span class="num">10</span>
+      <h2>Kontaktaufnahme</h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p>Wenn Sie per E-Mail, Kontaktformular oder Telefon mit uns in Kontakt treten, werden die von Ihnen mitgeteilten Daten (z. B. Name, E-Mail-Adresse, Inhalt der Nachricht) zum Zweck der Bearbeitung Ihrer Anfrage verarbeitet und gespeichert.</p>
+        <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung von Anfragen) bzw. Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen, z. B. bei Beitrittsanfragen).</p>
+        <p><strong>Speicherdauer:</strong> Die Daten werden gelöscht, sobald die Anfrage abschließend bearbeitet ist und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.</p>
+        <p><span class="ph">Falls ein Kontaktformular auf der Website eingesetzt wird: Hier die konkret erhobenen Pflichtfelder und optionalen Felder aufführen. Falls ein Formular-Dienstleister verwendet wird (z. B. Formspree, Netlify Forms), diesen als Auftragsverarbeiter nennen.</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. Newsletter -->
+  <div class="section" id="newsletter">
+    <div class="section-head">
+      <span class="num">11</span>
+      <h2>Newsletter</h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p><span class="ph">Diesen Abschnitt nur aufnehmen, falls ein Newsletter versendet wird.</span></p>
+        <p>Wenn Sie unseren Newsletter abonnieren, verarbeiten wir folgende Daten:</p>
+        <ul>
+          <li>E-Mail-Adresse (Pflichtangabe)</li>
+          <li>Name (optional)</li>
+          <li>Datum und Uhrzeit der Anmeldung</li>
+          <li>IP-Adresse (zum Nachweis der Einwilligung – Double-Opt-In)</li>
+        </ul>
+
+        <h3>Double-Opt-In-Verfahren</h3>
+        <p>Die Anmeldung zu unserem Newsletter erfolgt im sogenannten Double-Opt-In-Verfahren. Das bedeutet, dass Sie nach der Anmeldung eine E-Mail erhalten, in der Sie die Bestätigung Ihrer Anmeldung anklicken müssen. Erst danach wird Ihre E-Mail-Adresse in den Verteiler aufgenommen.</p>
+
+        <h3>Versanddienstleister</h3>
+        <p><span class="ph">Name und Anschrift des Versanddienstleisters (z. B. Mailchimp, Brevo/Sendinblue, CleverReach). Hinweis auf Auftragsverarbeitervertrag gem. Art. 28 DSGVO. Bei US-Anbietern: Hinweis auf Drittlandübermittlung und EU-Standardvertragsklauseln.</span></p>
+
+        <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).</p>
+        <p><strong>Widerruf:</strong> Sie können die Einwilligung zum Empfang des Newsletters jederzeit widerrufen, z. B. über den Abmeldelink am Ende jedes Newsletters oder per E-Mail an <span class="ph">datenschutz@sportfreunde-helfen.at</span>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12. Social Media -->
+  <div class="section" id="social-media">
+    <div class="section-head">
+      <span class="num">12</span>
+      <h2>Social Media</h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p><span class="ph">Diesen Abschnitt anpassen je nach verwendeten Plattformen.</span></p>
+
+        <h3>Links zu Social-Media-Profilen</h3>
+        <p>Auf unserer Website befinden sich Verlinkungen zu unseren Profilen in sozialen Netzwerken. Es handelt sich dabei um reine Hyperlinks – beim Besuch unserer Website werden keine Daten an die Betreiber der sozialen Netzwerke übertragen. Erst wenn Sie auf einen Link klicken, werden Sie auf die entsprechende Plattform weitergeleitet und die dortigen Datenschutzbestimmungen gelten.</p>
+
+        <p><span class="ph">Falls aktive Social-Media-Plugins (z. B. Facebook Like-Button, Instagram-Feed-Einbettung) eingesetzt werden: Diese übertragen bereits beim Laden der Seite Daten an den jeweiligen Anbieter. In diesem Fall ist eine Einwilligung (Opt-In) erforderlich und ggf. eine gemeinsame Verantwortlichkeit gem. Art. 26 DSGVO zu dokumentieren.</span></p>
+
+        <p>Unsere Social-Media-Präsenzen:</p>
+        <ul>
+          <li><span class="ph">Facebook: [URL] – Betreiber: Meta Platforms Ireland Ltd.</span></li>
+          <li><span class="ph">Instagram: [URL] – Betreiber: Meta Platforms Ireland Ltd.</span></li>
+          <li><span class="ph">Weitere Plattformen ergänzen</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13. Fotos -->
+  <div class="section" id="fotos">
+    <div class="section-head">
+      <span class="num">13</span>
+      <h2>Fotos &amp; Bildmaterial <span class="law-ref">§ 78 UrhG</span></h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p>Im Rahmen von Vereinsveranstaltungen und der Öffentlichkeitsarbeit werden ggf. Fotos und Videos erstellt und auf der Website, in Social Media oder in Druckerzeugnissen des Vereins veröffentlicht.</p>
+
+        <h3>Rechtsgrundlage</h3>
+        <ul>
+          <li><strong>Einzelporträts und erkennbare Nahaufnahmen:</strong> Nur mit ausdrücklicher Einwilligung der abgebildeten Person (Art. 6 Abs. 1 lit. a DSGVO, § 78 UrhG). Bei Minderjährigen ist die Einwilligung der Erziehungsberechtigten erforderlich.</li>
+          <li><strong>Gruppenbilder und Übersichtsaufnahmen von Veranstaltungen:</strong> Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Dokumentation und Öffentlichkeitsarbeit des Vereins), sofern keine überwiegenden Interessen der Abgebildeten entgegenstehen.</li>
+        </ul>
+
+        <h3>Widerruf &amp; Löschung</h3>
+        <p>Sie können einer Veröffentlichung jederzeit widersprechen. Bitte wenden Sie sich dazu per E-Mail an uns. Bereits veröffentlichte Bilder werden nach Widerruf zeitnah entfernt, soweit dies technisch möglich ist.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 14. Weitergabe an Dritte -->
+  <div class="section" id="weitergabe">
+    <div class="section-head">
+      <span class="num">14</span>
+      <h2>Weitergabe an Dritte &amp; Auftragsverarbeiter <span class="law-ref">Art. 28 DSGVO</span></h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p>Eine Weitergabe Ihrer Daten an Dritte erfolgt nur, wenn:</p>
+        <ul>
+          <li>Sie ausdrücklich eingewilligt haben (Art. 6 Abs. 1 lit. a DSGVO),</li>
+          <li>die Weitergabe zur Vertragserfüllung erforderlich ist (Art. 6 Abs. 1 lit. b DSGVO),</li>
+          <li>eine gesetzliche Verpflichtung besteht (Art. 6 Abs. 1 lit. c DSGVO), oder</li>
+          <li>ein berechtigtes Interesse besteht und kein Grund zur Annahme vorliegt, dass Ihre schutzwürdigen Interessen überwiegen (Art. 6 Abs. 1 lit. f DSGVO).</li>
+        </ul>
+
+        <h3>Auftragsverarbeiter</h3>
+        <p>Wir setzen folgende Auftragsverarbeiter ein, mit denen jeweils ein Auftragsverarbeitungsvertrag gem. Art. 28 DSGVO abgeschlossen wurde:</p>
+
+        <table class="dp-table">
+          <thead>
+            <tr>
+              <th>Dienstleister</th>
+              <th>Zweck</th>
+              <th>Sitz</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Netlify, Inc.</td>
+              <td>Website-Hosting</td>
+              <td>USA (EU-Standardvertragsklauseln)</td>
+            </tr>
+            <tr>
+              <td><span class="ph">Zahlungsdienstleister</span></td>
+              <td><span class="ph">Beitragseinzug / Spendenabwicklung</span></td>
+              <td><span class="ph">Sitz</span></td>
+            </tr>
+            <tr>
+              <td><span class="ph">Newsletter-Dienstleister</span></td>
+              <td><span class="ph">E-Mail-Versand</span></td>
+              <td><span class="ph">Sitz</span></td>
+            </tr>
+            <tr>
+              <td><span class="ph">Weitere Dienstleister ergänzen</span></td>
+              <td><span class="ph">Zweck</span></td>
+              <td><span class="ph">Sitz</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Weitergabe an Dachverbände</h3>
+        <p><span class="ph">Falls der Verein einem Dachverband (z. B. SPORTUNION, ASKÖ, ASVÖ) angehört und Mitgliederdaten dorthin übermittelt werden: Art, Umfang und Rechtsgrundlage der Weitergabe beschreiben.</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 15. Drittlandübermittlung -->
+  <div class="section" id="drittland">
+    <div class="section-head">
+      <span class="num">15</span>
+      <h2>Datenübermittlung in Drittländer <span class="law-ref">Art. 44–49 DSGVO</span></h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p>Eine Übermittlung personenbezogener Daten in Länder außerhalb der EU/des EWR (Drittländer) erfolgt nur, wenn:</p>
+        <ul>
+          <li>ein Angemessenheitsbeschluss der Europäischen Kommission vorliegt (Art. 45 DSGVO), z. B. für die USA im Rahmen des EU-U.S. Data Privacy Frameworks,</li>
+          <li>geeignete Garantien bestehen, insbesondere EU-Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO), oder</li>
+          <li>eine Ausnahme nach Art. 49 DSGVO greift (z. B. ausdrückliche Einwilligung).</li>
+        </ul>
+        <p>Aktuell erfolgt eine Datenübermittlung in die USA ausschließlich an den Hosting-Anbieter Netlify (siehe Abschnitt 8). <span class="ph">Falls weitere US-Dienste verwendet werden (z. B. Google Fonts, Mailchimp), hier ergänzen.</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 16. Speicherdauer -->
+  <div class="section" id="speicherdauer">
+    <div class="section-head">
+      <span class="num">16</span>
+      <h2>Speicherdauer</h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p>Die Speicherdauer richtet sich nach dem jeweiligen Verarbeitungszweck und den gesetzlichen Aufbewahrungspflichten. Im Überblick:</p>
+        <table class="dp-table">
+          <thead>
+            <tr>
+              <th>Datenkategorie</th>
+              <th>Speicherdauer</th>
+              <th>Grundlage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mitgliederdaten (Stammdaten)</td>
+              <td>Dauer der Mitgliedschaft + gesetzliche Fristen</td>
+              <td>Art. 6 Abs. 1 lit. b DSGVO</td>
+            </tr>
+            <tr>
+              <td>Buchhalterische Daten (Beiträge, Spenden)</td>
+              <td>7 Jahre nach Ende des Geschäftsjahres</td>
+              <td>§ 132 BAO</td>
+            </tr>
+            <tr>
+              <td>Newsletter-Daten</td>
+              <td>Bis zum Widerruf der Einwilligung</td>
+              <td>Art. 6 Abs. 1 lit. a DSGVO</td>
+            </tr>
+            <tr>
+              <td>Kontaktanfragen</td>
+              <td>Bis zur Erledigung, max. 6 Monate</td>
+              <td>Art. 6 Abs. 1 lit. f DSGVO</td>
+            </tr>
+            <tr>
+              <td>Server-Logfiles</td>
+              <td><span class="ph">[Zeitraum eintragen]</span></td>
+              <td>Art. 6 Abs. 1 lit. f DSGVO</td>
+            </tr>
+            <tr>
+              <td>Veranstaltungsdaten</td>
+              <td>Nach Ende der Veranstaltung, max. 3 Monate</td>
+              <td>Art. 6 Abs. 1 lit. b DSGVO</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 17. Betroffenenrechte -->
+  <div class="section" id="rechte">
+    <div class="section-head">
+      <span class="num">17</span>
+      <h2>Ihre Rechte als betroffene Person <span class="law-ref">Art. 15–22 DSGVO</span></h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p>Sie haben gegenüber dem Verein folgende Rechte in Bezug auf Ihre personenbezogenen Daten:</p>
+
+        <h3>Auskunftsrecht (Art. 15 DSGVO)</h3>
+        <p>Sie können Auskunft darüber verlangen, ob und welche personenbezogenen Daten wir von Ihnen verarbeiten, zu welchem Zweck, an wen Daten weitergegeben werden und wie lange sie gespeichert werden.</p>
+
+        <h3>Recht auf Berichtigung (Art. 16 DSGVO)</h3>
+        <p>Sie haben das Recht, die Berichtigung unrichtiger oder die Vervollständigung unvollständiger Daten zu verlangen.</p>
+
+        <h3>Recht auf Löschung (Art. 17 DSGVO)</h3>
+        <p>Sie können die Löschung Ihrer Daten verlangen, sofern die Daten nicht mehr erforderlich sind, Sie eine erteilte Einwilligung widerrufen oder die Verarbeitung unrechtmäßig ist. Gesetzliche Aufbewahrungspflichten bleiben unberührt.</p>
+
+        <h3>Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)</h3>
+        <p>Sie können die Einschränkung der Verarbeitung verlangen, z. B. wenn die Richtigkeit der Daten bestritten wird oder die Verarbeitung unrechtmäßig ist und Sie die Löschung ablehnen.</p>
+
+        <h3>Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</h3>
+        <p>Sie haben das Recht, die Sie betreffenden Daten, die Sie uns bereitgestellt haben, in einem strukturierten, gängigen und maschinenlesbaren Format zu erhalten und diese Daten einem anderen Verantwortlichen zu übermitteln.</p>
+
+        <h3>Widerspruchsrecht (Art. 21 DSGVO)</h3>
+        <p>Sie haben das Recht, aus Gründen, die sich aus Ihrer besonderen Situation ergeben, jederzeit gegen die Verarbeitung Ihrer Daten Widerspruch einzulegen, sofern die Verarbeitung auf Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse) beruht. Wir verarbeiten die Daten dann nicht mehr, es sei denn, wir können zwingende schutzwürdige Gründe für die Verarbeitung nachweisen.</p>
+
+        <h3>Widerrufsrecht bei Einwilligungen (Art. 7 Abs. 3 DSGVO)</h3>
+        <p>Sofern die Datenverarbeitung auf Ihrer Einwilligung beruht, können Sie diese jederzeit für die Zukunft widerrufen. Die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung bleibt davon unberührt.</p>
+
+        <p>Zur Ausübung Ihrer Rechte wenden Sie sich bitte an: <span class="ph">datenschutz@sportfreunde-helfen.at</span></p>
+        <p>Wir werden Ihre Anfrage unverzüglich, spätestens jedoch innerhalb eines Monats, beantworten (Art. 12 Abs. 3 DSGVO).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 18. Beschwerderecht -->
+  <div class="section" id="beschwerde">
+    <div class="section-head">
+      <span class="num">18</span>
+      <h2>Beschwerderecht bei der Aufsichtsbehörde <span class="law-ref">Art. 77 DSGVO</span></h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p>Wenn Sie der Ansicht sind, dass die Verarbeitung Ihrer personenbezogenen Daten gegen die DSGVO verstößt, haben Sie das Recht, eine Beschwerde bei der zuständigen Aufsichtsbehörde einzureichen:</p>
+        <p><strong>Österreichische Datenschutzbehörde</strong><br>
+        Barichgasse 40–42<br>
+        1030 Wien<br>
+        Telefon: +43 1 521 52-2569<br>
+        E-Mail: <a href="mailto:dsb@dsb.gv.at">dsb@dsb.gv.at</a><br>
+        Website: <a href="https://www.dsb.gv.at" target="_blank" rel="noopener">www.dsb.gv.at</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 19. Datenschutzbeauftragter -->
+  <div class="section" id="datenschutzbeauftragter">
+    <div class="section-head">
+      <span class="num">19</span>
+      <h2>Datenschutzbeauftragter <span class="law-ref">Art. 37 DSGVO</span></h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p><span class="ph">Falls ein Datenschutzbeauftragter bestellt ist:</span></p>
+        <p><span class="ph">Vorname Nachname<br>E-Mail: dsb@sportfreunde-helfen.at<br>Telefon: +43 XXX XXXXXXX</span></p>
+        <p><span class="ph">Falls kein Datenschutzbeauftragter bestellt ist (bei kleinen Vereinen üblich):<br>„Der Verein ‚Sportfreunde helfen' ist derzeit nicht zur Bestellung eines Datenschutzbeauftragten verpflichtet (Art. 37 Abs. 1 DSGVO). Bei datenschutzrechtlichen Fragen wenden Sie sich bitte direkt an den Vorstand unter der oben angegebenen Kontaktadresse."</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 20. Änderungen -->
+  <div class="section" id="aenderungen">
+    <div class="section-head">
+      <span class="num">20</span>
+      <h2>Änderungen dieser Datenschutzerklärung</h2>
+    </div>
+    <div class="card">
+      <div class="legal">
+        <p>Wir behalten uns vor, diese Datenschutzerklärung anzupassen, um sie an geänderte Rechtslagen, neue Verarbeitungstätigkeiten oder technische Neuerungen anzupassen. Es gilt stets die aktuelle, auf dieser Website veröffentlichte Fassung.</p>
+        <p>Wir empfehlen Ihnen, diese Datenschutzerklärung regelmäßig einzusehen, um über den Schutz Ihrer Daten informiert zu bleiben.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rechtshinweis -->
+  <div class="notice notice--info">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+    <p><strong>Rechtshinweis:</strong> Diese Datenschutzerklärung wurde nach bestem Wissen erstellt, ersetzt jedoch keine individuelle Rechtsberatung. Es wird empfohlen, die Inhalte vor Veröffentlichung von einer datenschutzrechtlich qualifizierten Person prüfen zu lassen. Der Verein kann für die Vollständigkeit und Richtigkeit dieser Vorlage keine Haftung übernehmen.</p>
+  </div>
+
+  <div class="footer">
+    &copy; 2026 Sportfreunde helfen &middot; Alle Rechte vorbehalten
+    <span>Stand: <span class="ph">TT.MM.JJJJ</span></span>
+  </div>
+
+</div>
+
+</body>
+</html>

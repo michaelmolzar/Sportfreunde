@@ -140,6 +140,10 @@ const SmartLogo = ({ src, alt, className }: { src: string, alt: string, classNam
     }
   };
 
+  if (!currentSrc) {
+    return <div className={`bg-gray-200 flex items-center justify-center ${className}`}><span className="text-gray-400 text-xs">No Logo</span></div>;
+  }
+
   return (
     <img 
       src={currentSrc} 
@@ -172,6 +176,8 @@ const CommunityImage = ({ index, alt, className }: { index: number, alt: string,
     }
   };
 
+  if (!src) return null;
+
   return (
     <img 
       src={src} 
@@ -203,7 +209,7 @@ const PersonImage = ({ index, alt, className }: { index: number, alt: string, cl
     }
   };
 
-  if (attempt === 4) {
+  if (attempt === 4 || !src) {
     return (
       <div className="w-full h-full flex items-center justify-center text-gray-400 bg-gray-200">
         <Users size={40} />
@@ -1687,6 +1693,17 @@ export default function App() {
           </div>
         )}
       </main>
+
+      <footer className="bg-white border-t border-gray-200 mt-12 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center gap-6">
+          <a href="/impressum.html" className="text-sm text-gray-500 hover:text-[#5C2D91] transition-colors">
+            Impressum & Offenlegung
+          </a>
+          <a href="/datenschutz.html" className="text-sm text-gray-500 hover:text-[#5C2D91] transition-colors">
+            Datenschutzerklärung
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }
