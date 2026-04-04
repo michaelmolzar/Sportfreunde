@@ -1,0 +1,58 @@
+{
+  "entities": {
+    "Club": {
+      "title": "Club",
+      "description": "A football club with its performance data.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the club" },
+        "spieltag": { "type": "number", "description": "Current matchday" },
+        "punkte": { "type": "number", "description": "Points scored" },
+        "tore": { "type": "number", "description": "Goals scored" },
+        "titel": { "type": "array", "items": { "type": "string" }, "description": "Titles won (e.g., Meister, Cup)" },
+        "logo": { "type": "string", "description": "Path to the logo image" }
+      },
+      "required": ["spieltag", "punkte", "tore", "titel", "logo"]
+    },
+    "NationalTeam": {
+      "title": "National Team",
+      "description": "A national football team with its performance data.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the national team" },
+        "spiele": { "type": "number", "description": "Games played" },
+        "punkte": { "type": "number", "description": "Points scored" },
+        "tore": { "type": "number", "description": "Goals scored" },
+        "logo": { "type": "string", "description": "Path to the logo image" }
+      },
+      "required": ["spiele", "punkte", "tore", "logo"]
+    },
+    "Member": {
+      "title": "Member",
+      "description": "A participant in the charity game.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the member" },
+        "club": { "type": "string", "description": "Club the member supports" },
+        "nationalTeam": { "type": "string", "description": "National team the member supports" },
+        "color": { "type": "string", "description": "Color associated with the member" },
+        "email": { "type": "string", "description": "Email address of the member" }
+      },
+      "required": ["name", "club", "nationalTeam", "color"]
+    }
+  },
+  "firestore": {
+    "clubs/{clubId}": {
+      "schema": "Club",
+      "description": "Collection of clubs"
+    },
+    "nationalTeams/{teamId}": {
+      "schema": "NationalTeam",
+      "description": "Collection of national teams"
+    },
+    "members/{memberId}": {
+      "schema": "Member",
+      "description": "Collection of members"
+    }
+  }
+}
