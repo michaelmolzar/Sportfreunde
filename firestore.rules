@@ -67,13 +67,19 @@ service cloud.firestore {
                     isValidNumber('punkte') &&
                     isValidNumber('tore') &&
                     request.resource.data.titel is list &&
-                    isValidString('logo', 200);
+                    isValidString('logo', 200) &&
+                    (!('apiTeamId' in request.resource.data) || isValidNumber('apiTeamId')) &&
+                    (!('apiLeagueId' in request.resource.data) || isValidNumber('apiLeagueId')) &&
+                    (!('apiSeason' in request.resource.data) || isValidNumber('apiSeason'));
       allow update: if isAdmin() && 
                     isValidNumber('spieltag') &&
                     isValidNumber('punkte') &&
                     isValidNumber('tore') &&
                     request.resource.data.titel is list &&
-                    isValidString('logo', 200);
+                    isValidString('logo', 200) &&
+                    (!('apiTeamId' in request.resource.data) || isValidNumber('apiTeamId')) &&
+                    (!('apiLeagueId' in request.resource.data) || isValidNumber('apiLeagueId')) &&
+                    (!('apiSeason' in request.resource.data) || isValidNumber('apiSeason'));
       allow delete: if isAdmin();
     }
 
@@ -84,12 +90,18 @@ service cloud.firestore {
                     isValidNumber('spiele') &&
                     isValidNumber('punkte') &&
                     isValidNumber('tore') &&
-                    isValidString('logo', 200);
+                    isValidString('logo', 200) &&
+                    (!('apiTeamId' in request.resource.data) || isValidNumber('apiTeamId')) &&
+                    (!('apiLeagueId' in request.resource.data) || isValidNumber('apiLeagueId')) &&
+                    (!('apiSeason' in request.resource.data) || isValidNumber('apiSeason'));
       allow update: if isAdmin() && 
                     isValidNumber('spiele') &&
                     isValidNumber('punkte') &&
                     isValidNumber('tore') &&
-                    isValidString('logo', 200);
+                    isValidString('logo', 200) &&
+                    (!('apiTeamId' in request.resource.data) || isValidNumber('apiTeamId')) &&
+                    (!('apiLeagueId' in request.resource.data) || isValidNumber('apiLeagueId')) &&
+                    (!('apiSeason' in request.resource.data) || isValidNumber('apiSeason'));
       allow delete: if isAdmin();
     }
 

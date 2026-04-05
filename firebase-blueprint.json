@@ -10,7 +10,10 @@
         "punkte": { "type": "number", "description": "Points scored" },
         "tore": { "type": "number", "description": "Goals scored" },
         "titel": { "type": "array", "items": { "type": "string" }, "description": "Titles won (e.g., Meister, Cup)" },
-        "logo": { "type": "string", "description": "Path to the logo image" }
+        "logo": { "type": "string", "description": "Path to the logo image" },
+        "apiTeamId": { "type": "number", "description": "API-Football Team ID" },
+        "apiLeagueId": { "type": "number", "description": "API-Football League ID" },
+        "apiSeason": { "type": "number", "description": "API-Football Season Year" }
       },
       "required": ["spieltag", "punkte", "tore", "titel", "logo"]
     },
@@ -23,7 +26,10 @@
         "spiele": { "type": "number", "description": "Games played" },
         "punkte": { "type": "number", "description": "Points scored" },
         "tore": { "type": "number", "description": "Goals scored" },
-        "logo": { "type": "string", "description": "Path to the logo image" }
+        "logo": { "type": "string", "description": "Path to the logo image" },
+        "apiTeamId": { "type": "number", "description": "API-Football Team ID" },
+        "apiLeagueId": { "type": "number", "description": "API-Football League ID" },
+        "apiSeason": { "type": "number", "description": "API-Football Season Year" }
       },
       "required": ["spiele", "punkte", "tore", "logo"]
     },

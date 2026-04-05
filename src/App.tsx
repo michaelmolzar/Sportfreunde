@@ -31,7 +31,9 @@ import {
   Mail,
   HeartHandshake,
   Trash2,
-  Save
+  Save,
+  Trophy,
+  Globe
 } from 'lucide-react';
 import { db, auth } from './firebase';
 import { collection, onSnapshot, doc, setDoc, updateDoc, deleteDoc, addDoc } from 'firebase/firestore';
@@ -46,25 +48,8 @@ const RULES = {
   cupFinale: 50,
   euroQuali: 50,
   euroSieg: 200,
-  euroFinale: 100
-};
-
-// Mapping für API-Football (Team IDs, League IDs, Season)
-// Suche die passenden IDs auf https://dashboard.api-football.com/
-const API_FOOTBALL_MAPPING = {
-  clubs: {
-    'Austria Wien': { teamId: 77, leagueId: 218, season: 2024 },
-    'Rapid Wien': { teamId: 76, leagueId: 218, season: 2024 },
-    'Villarreal': { teamId: 533, leagueId: 140, season: 2024 },
-    'Sturm Graz': { teamId: 79, leagueId: 218, season: 2024 },
-    'LASK': { teamId: 80, leagueId: 218, season: 2024 },
-    'Salzburg': { teamId: 73, leagueId: 218, season: 2024 }
-  },
-  nationalTeams: {
-    'Österreich': { teamId: 17, leagueId: 32, season: 2024 }, // 32 = Nations League
-    'Spanien': { teamId: 9, leagueId: 32, season: 2024 },
-    'Deutschland': { teamId: 25, leagueId: 32, season: 2024 }
-  }
+  euroFinale: 100,
+  euroGruppenphase: 50
 };
 
 const COLORS = {
@@ -75,42 +60,47 @@ const COLORS = {
 };
 
 // Aktuelle Daten (Initialwerte)
-const INITIAL_CLUBS_DATA: Record<string, { spieltag: number; punkte: number; tore: number; titel: string[]; logo: string }> = {
+const INITIAL_CLUBS_DATA: Record<string, { spieltag: number; punkte: number; tore: number; titel: string[]; logo: string; apiTeamId?: number; apiLeagueId?: number; apiSeason?: number }> = {
   'Austria Wien': { 
     spieltag: 20, 
     punkte: 32, 
     tore: 30, 
     titel: [],
-    logo: '/logos/austria-wien.png'
+    logo: '/logos/austria-wien.png',
+    apiTeamId: 77, apiLeagueId: 218, apiSeason: 2024
   },
   'Rapid Wien': { 
     spieltag: 20, 
     punkte: 29, 
     tore: 24, 
     titel: [],
-    logo: '/logos/rapid-wien.png'
+    logo: '/logos/rapid-wien.png',
+    apiTeamId: 76, apiLeagueId: 218, apiSeason: 2024
   },
   'Villarreal': { 
     spieltag: 25, 
     punkte: 51, 
     tore: 47, 
     titel: [],
-    logo: '/logos/villarreal.png'
+    logo: '/logos/villarreal.png',
+    apiTeamId: 533, apiLeagueId: 140, apiSeason: 2024
   }
 };
 
-const INITIAL_NATIONAL_TEAMS_DATA: Record<string, { spiele: number; punkte: number; tore: number; logo: string }> = {
+const INITIAL_NATIONAL_TEAMS_DATA: Record<string, { spiele: number; punkte: number; tore: number; logo: string; apiTeamId?: number; apiLeagueId?: number; apiSeason?: number }> = {
   'Österreich': { 
     spiele: 6, 
     punkte: 13, 
     tore: 16,
-    logo: '/logos/oesterreich.png' 
+    logo: '/logos/oesterreich.png',
+    apiTeamId: 17, apiLeagueId: 32, apiSeason: 2024
   },
   'Spanien': { 
     spiele: 6, 
     punkte: 16, 
     tore: 21,
-    logo: '/logos/spanien.png'
+    logo: '/logos/spanien.png',
+    apiTeamId: 9, apiLeagueId: 32, apiSeason: 2024
   }
 };
 
@@ -354,8 +344,12 @@ export default function App() {
     let errorCount = 0;
 
     const fetchTeamData = async (teamName: string, config: any, isClub: boolean) => {
+      if (!config.apiLeagueId || !config.apiSeason || !config.apiTeamId) {
+        console.warn(`Missing API mapping for ${teamName}`);
+        return;
+      }
       try {
-        const res = await fetch(`https://v3.football.api-sports.io/standings?league=${config.leagueId}&season=${config.season}&team=${config.teamId}`, {
+        const res = await fetch(`https://v3.football.api-sports.io/standings?league=${config.apiLeagueId}&season=${config.apiSeason}&team=${config.apiTeamId}`, {
           headers: {
             'x-apisports-key': apiKey
           }
@@ -375,7 +369,7 @@ export default function App() {
           return;
         }
 
-        const teamStats = standings.find((s: any) => s.team.id === config.teamId);
+        const teamStats = standings.find((s: any) => s.team.id === config.apiTeamId);
         if (teamStats) {
           const punkte = teamStats.points;
           const tore = teamStats.all.goals.for;
@@ -399,19 +393,12 @@ export default function App() {
       }
     };
 
-    // Cast to any to allow dynamic key access
-    const mapping = API_FOOTBALL_MAPPING as any;
-
-    for (const [name, config] of Object.entries(mapping.clubs)) {
-      if (clubsData[name]) {
-        await fetchTeamData(name, config, true);
-      }
+    for (const [name, config] of Object.entries(clubsData)) {
+      await fetchTeamData(name, config, true);
     }
 
-    for (const [name, config] of Object.entries(mapping.nationalTeams)) {
-      if (nationalTeamsData[name]) {
-        await fetchTeamData(name, config, false);
-      }
+    for (const [name, config] of Object.entries(nationalTeamsData)) {
+      await fetchTeamData(name, config, false);
     }
 
     setIsSyncing(false);
@@ -520,7 +507,7 @@ export default function App() {
       alert("Dieser Club existiert bereits!");
       return;
     }
-    const newData = { spieltag: 0, punkte: 0, tore: 0, titel: [], logo: '' };
+    const newData = { spieltag: 0, punkte: 0, tore: 0, titel: [], logo: '', apiTeamId: 0, apiLeagueId: 0, apiSeason: new Date().getFullYear() };
     try {
       await setDoc(doc(db, 'clubs', name), newData);
       setNewClubName('');
@@ -536,7 +523,7 @@ export default function App() {
       alert("Dieses Nationalteam existiert bereits!");
       return;
     }
-    const newData = { spiele: 0, punkte: 0, tore: 0, titel: [], logo: '' };
+    const newData = { spiele: 0, punkte: 0, tore: 0, titel: [], logo: '', apiTeamId: 0, apiLeagueId: 0, apiSeason: new Date().getFullYear() };
     try {
       await setDoc(doc(db, 'nationalTeams', name), newData);
       setNewNationalTeamName('');
@@ -1272,7 +1259,7 @@ export default function App() {
                     acc[key].names.push(member.name);
                     return acc;
                   }, {} as Record<string, { names: string[], club: string, nationalTeam: string, color: string }>)
-                ).map((group, idx) => (
+                ).map((group: any, idx) => (
                   <li key={idx} className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full shadow-sm" style={{ backgroundColor: group.color }}></div>
                     <span>
@@ -1500,8 +1487,8 @@ export default function App() {
                 const totalDonations = totalDonation; // Use the calculated totalDonation
                 const avgDonationPerParticipant = totalParticipants > 0 ? (totalDonations / totalParticipants).toFixed(2) : '0.00';
                 
-                const totalClubGoals = Object.values(clubsData).reduce((sum: number, club: any) => sum + (club.tore || 0), 0);
-                const totalNationalGoals = Object.values(nationalTeamsData).reduce((sum: number, team: any) => sum + (team.tore || 0), 0);
+                const totalClubGoals = Object.values(clubsData as Record<string, any>).reduce((sum: number, club: any) => sum + (club.tore || 0), 0) as number;
+                const totalNationalGoals = Object.values(nationalTeamsData as Record<string, any>).reduce((sum: number, team: any) => sum + (team.tore || 0), 0) as number;
                 const totalGoals = totalClubGoals + totalNationalGoals;
 
                 const clubCount = Object.keys(clubsData).length;
@@ -1887,6 +1874,39 @@ export default function App() {
                           </div>
                         </div>
 
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-blue-50/50 rounded-lg border border-blue-100">
+                          <div>
+                            <label className="block text-xs font-semibold text-blue-800 uppercase tracking-wider mb-2">API Team ID</label>
+                            <input 
+                              type="number" 
+                              value={data.apiTeamId || ''}
+                              onChange={(e) => updateClubData(clubName, 'apiTeamId', parseInt(e.target.value) || 0)}
+                              placeholder="z.B. 77"
+                              className="w-full px-4 py-2 rounded-lg border border-blue-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none font-mono text-sm text-gray-700"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs font-semibold text-blue-800 uppercase tracking-wider mb-2">API League ID</label>
+                            <input 
+                              type="number" 
+                              value={data.apiLeagueId || ''}
+                              onChange={(e) => updateClubData(clubName, 'apiLeagueId', parseInt(e.target.value) || 0)}
+                              placeholder="z.B. 218"
+                              className="w-full px-4 py-2 rounded-lg border border-blue-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none font-mono text-sm text-gray-700"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs font-semibold text-blue-800 uppercase tracking-wider mb-2">API Season</label>
+                            <input 
+                              type="number" 
+                              value={data.apiSeason || ''}
+                              onChange={(e) => updateClubData(clubName, 'apiSeason', parseInt(e.target.value) || 0)}
+                              placeholder="z.B. 2024"
+                              className="w-full px-4 py-2 rounded-lg border border-blue-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none font-mono text-sm text-gray-700"
+                            />
+                          </div>
+                        </div>
+
                         <div>
                           <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Boni / Titel</label>
                           <div className="flex flex-wrap gap-3">
@@ -1972,6 +1992,39 @@ export default function App() {
                                 onChange={(e) => updateNationalTeamData(teamName, 'tore', parseInt(e.target.value) || 0)}
                                 className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#5C2D91] focus:border-transparent outline-none font-mono font-bold text-gray-700"
                               />
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 p-4 bg-blue-50/50 rounded-lg border border-blue-100">
+                              <div>
+                                <label className="block text-xs font-semibold text-blue-800 uppercase tracking-wider mb-2">API Team ID</label>
+                                <input 
+                                  type="number" 
+                                  value={data.apiTeamId || ''}
+                                  onChange={(e) => updateNationalTeamData(teamName, 'apiTeamId', parseInt(e.target.value) || 0)}
+                                  placeholder="z.B. 17"
+                                  className="w-full px-4 py-2 rounded-lg border border-blue-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none font-mono text-sm text-gray-700"
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-semibold text-blue-800 uppercase tracking-wider mb-2">API League ID</label>
+                                <input 
+                                  type="number" 
+                                  value={data.apiLeagueId || ''}
+                                  onChange={(e) => updateNationalTeamData(teamName, 'apiLeagueId', parseInt(e.target.value) || 0)}
+                                  placeholder="z.B. 32"
+                                  className="w-full px-4 py-2 rounded-lg border border-blue-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none font-mono text-sm text-gray-700"
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-semibold text-blue-800 uppercase tracking-wider mb-2">API Season</label>
+                                <input 
+                                  type="number" 
+                                  value={data.apiSeason || ''}
+                                  onChange={(e) => updateNationalTeamData(teamName, 'apiSeason', parseInt(e.target.value) || 0)}
+                                  placeholder="z.B. 2024"
+                                  className="w-full px-4 py-2 rounded-lg border border-blue-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none font-mono text-sm text-gray-700"
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
