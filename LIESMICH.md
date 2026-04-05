@@ -20,8 +20,9 @@ Dank der neuen **Firebase-Integration** werden alle Änderungen, die du im Admin
 ### Automatische Synchronisation (API-Football)
 Im Admin-Bereich gibt es nun einen Button **"Live-Daten synchronisieren"**. 
 1. Damit dieser funktioniert, musst du einen API-Key von [API-Football](https://dashboard.api-football.com/) in den Umgebungsvariablen (Secrets) als `VITE_API_FOOTBALL_KEY` hinterlegen.
-2. Ein Klick auf den Button ruft die aktuellen Punkte und Tore für alle Teams (die im Code in der `API_FOOTBALL_MAPPING` Liste hinterlegt sind) ab und speichert sie automatisch in der Datenbank.
-3. *Hinweis:* Titel-Boni (Meister, Cup etc.) müssen weiterhin manuell über die Checkboxen vergeben werden.
+2. Ein Klick auf den Button ruft die aktuellen Punkte und Tore für alle Teams ab und speichert sie automatisch in der Datenbank.
+3. **WICHTIG:** Damit die Synchronisation weiß, welches Team abgefragt werden soll, musst du im Admin-Bereich bei jedem Verein und Nationalteam die **API Team ID**, **API League ID** und **API Season** eintragen. Diese IDs findest du auf der API-Football Webseite.
+4. *Hinweis:* Titel-Boni (Meister, Cup etc.) müssen weiterhin manuell über die Checkboxen vergeben werden.
 
 ## 2. Bilddateien und Logos
 
@@ -129,3 +130,10 @@ Um das Favicon (das kleine Icon im Browser-Tab) zu ändern:
 2. Benenne es `logo.png` (oder `favicon.ico`).
 3. Lade es in den Ordner `public/` hoch (überschreibe ggf. die vorhandene Datei).
 4. Falls du den Dateinamen änderst, musst du auch die `index.html` anpassen (`<link rel="icon" ...>`).
+
+## 7. Hinweis zu GitHub Security Alerts (Firebase API Key)
+Wenn du den Code auf GitHub hochlädst, erhältst du möglicherweise eine Warnung über einen "Publicly leaked secret" bezüglich deines Firebase API Keys (z.B. `AIzaSy...`).
+
+**Das ist kein Grund zur Sorge.** Firebase API Keys für Web-Apps sind **dafür gedacht, öffentlich zu sein**. Sie dienen lediglich dazu, dein Projekt gegenüber den Google-Servern zu identifizieren, gewähren aber **keinen** administrativen Zugriff auf deine Daten. Die eigentliche Sicherheit deiner Daten wird durch die **Firestore Security Rules** gewährleistet, die wir bereits sicher konfiguriert haben.
+
+Du kannst diese Warnung auf GitHub getrost als "Used in public client" oder "False positive" markieren und schließen.
